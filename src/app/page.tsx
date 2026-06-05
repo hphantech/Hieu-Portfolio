@@ -1,65 +1,189 @@
-import Image from "next/image";
+import { SectionHeading } from "@/components/section-heading";
+import { siteConfig } from "@/lib/site";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main id="main-content" className="flex-1">
+      <section
+        aria-labelledby="hero-heading"
+        className="border-b border-border/60 bg-surface"
+      >
+        <div className="mx-auto w-full max-w-5xl px-6 py-20 sm:py-28">
+          <p className="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-accent">
+            {siteConfig.role}
+          </p>
+          <h1
+            id="hero-heading"
+            className="max-w-3xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl sm:leading-tight"
+          >
+            Hi, I&apos;m {siteConfig.name}.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-muted">
+            {siteConfig.tagline} Based in the {siteConfig.location}, I&apos;m
+            building this portfolio to showcase my work ahead of frontend
+            internship applications.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-4">
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="#projects"
+              className="inline-flex items-center justify-center rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-opacity hover:opacity-85"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              View projects
+            </a>
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-surface"
             >
-              Learning
-            </a>{" "}
-            center.
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="about"
+        aria-labelledby="about-heading"
+        className="mx-auto w-full max-w-5xl px-6 py-20"
+      >
+        <SectionHeading
+          id="about-heading"
+          title="About"
+          description="A short introduction to who you are, what you're studying, and what kind of frontend work excites you."
+        />
+        <div className="max-w-3xl space-y-4 text-base leading-8 text-muted">
+          <p>
+            I&apos;m a frontend developer focused on turning designs into
+            polished, accessible experiences across screen sizes — from wide
+            desktop layouts down to 320px mobile viewports.
+          </p>
+          <p>
+            This site is a starting point. Over the coming months I&apos;ll add
+            real projects, case studies, and notes on topics like semantic HTML,
+            React, Next.js, and accessibility.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section
+        id="skills"
+        aria-labelledby="skills-heading"
+        className="border-y border-border/60 bg-surface"
+      >
+        <div className="mx-auto w-full max-w-5xl px-6 py-20">
+          <SectionHeading
+            id="skills-heading"
+            title="Skills"
+            description="Technologies and practices I'm building with."
+          />
+          <ul className="flex flex-wrap gap-3">
+            {siteConfig.skills.map((skill) => (
+              <li
+                key={skill}
+                className="rounded-full border border-border bg-background px-4 py-2 text-sm text-foreground"
+              >
+                {skill}
+              </li>
+            ))}
+          </ul>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section
+        id="projects"
+        aria-labelledby="projects-heading"
+        className="mx-auto w-full max-w-5xl px-6 py-20"
+      >
+        <SectionHeading
+          id="projects-heading"
+          title="Projects"
+          description="Placeholder cards for now — swap these with real work and write-ups."
+        />
+        <div className="grid gap-6 md:grid-cols-2">
+          {siteConfig.projects.map((project) => (
+            <article
+              key={project.title}
+              className="flex h-full flex-col rounded-2xl border border-border bg-surface p-6"
+            >
+              <h3 className="text-xl font-semibold text-foreground">
+                {project.title}
+              </h3>
+              <p className="mt-3 flex-1 text-base leading-7 text-muted">
+                {project.description}
+              </p>
+              <ul
+                aria-label={`Technologies used in ${project.title}`}
+                className="mt-5 flex flex-wrap gap-2"
+              >
+                {project.tech.map((tech) => (
+                  <li
+                    key={tech}
+                    className="rounded-md bg-background px-2.5 py-1 font-mono text-xs text-muted"
+                  >
+                    {tech}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href={project.href}
+                className="mt-6 inline-flex text-sm font-medium text-accent transition-opacity hover:opacity-70"
+              >
+                View project →
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="contact"
+        aria-labelledby="contact-heading"
+        className="border-t border-border/60 bg-surface"
+      >
+        <div className="mx-auto w-full max-w-5xl px-6 py-20">
+          <SectionHeading
+            id="contact-heading"
+            title="Contact"
+            description="Open to internship opportunities, collaborations, and feedback."
+          />
+          <address className="not-italic">
+            <ul className="space-y-3 text-base text-muted">
+              <li>
+                <span className="font-medium text-foreground">Email: </span>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="text-accent transition-opacity hover:opacity-70"
+                >
+                  {siteConfig.email}
+                </a>
+              </li>
+              <li>
+                <span className="font-medium text-foreground">GitHub: </span>
+                <a
+                  href={siteConfig.links.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent transition-opacity hover:opacity-70"
+                >
+                  {siteConfig.links.github}
+                </a>
+              </li>
+              <li>
+                <span className="font-medium text-foreground">LinkedIn: </span>
+                <a
+                  href={siteConfig.links.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent transition-opacity hover:opacity-70"
+                >
+                  {siteConfig.links.linkedin}
+                </a>
+              </li>
+            </ul>
+          </address>
+        </div>
+      </section>
+    </main>
   );
 }
