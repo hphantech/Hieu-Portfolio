@@ -9,8 +9,12 @@ export type SocialLink = {
   icon: "github" | "linkedin" | "mail";
 };
 
+export type SkillGroupIcon =
+  "languages" | "frameworks" | "practices" | "tooling";
+
 export type SkillGroup = {
   title: string;
+  icon: SkillGroupIcon;
   skills: string[];
 };
 
