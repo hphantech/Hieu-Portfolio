@@ -45,3 +45,39 @@ body {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+
+/* Hide the native cursor only when the decorative custom cursor is active
+   (desktop pointer, motion allowed). The custom cursor is purely visual and
+   never intercepts pointer events or focus, so keyboard/touch use is unaffected. */
+@media (pointer: fine) {
+  html.custom-cursor-active,
+  html.custom-cursor-active * {
+    cursor: none;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee linear infinite;
+}
+
+/* Respect reduced-motion preferences globally for any CSS-driven animation
+   (e.g. the marquee), on top of the JS-level checks in motion components. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
