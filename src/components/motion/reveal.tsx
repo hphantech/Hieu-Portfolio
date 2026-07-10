@@ -3,7 +3,7 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
-type RevealTag = "div" | "section" | "li" | "article" | "span" | "p";
+type RevealTag = "div" | "section" | "li" | "article" | "span" | "p" | "header";
 
 type RevealProps = {
   children: ReactNode;
