@@ -3,14 +3,17 @@ import type { SkillGroup } from "@/types/content";
 export const skillGroups: SkillGroup[] = [
   {
     title: "Languages",
+    icon: "languages",
     skills: ["HTML", "CSS / SASS", "TypeScript", "JavaScript"],
   },
   {
     title: "Frameworks & Libraries",
+    icon: "frameworks",
     skills: ["React", "Next.js", "Tailwind CSS"],
   },
   {
     title: "Practices",
+    icon: "practices",
     skills: [
       "Semantic HTML",
       "Accessibility (A11y)",
@@ -20,6 +23,7 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     title: "Tooling",
+    icon: "tooling",
     skills: ["Git & GitHub", "ESLint / Prettier", "Figma"],
   },
 ];
