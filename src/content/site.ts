@@ -16,6 +16,7 @@ export const site = {
     "Available for a Frontend Developer internship from September 2026",
   email: "hello@example.com", // TODO: replace with your real email
   resumeUrl: "/resume-placeholder.pdf", // TODO: add a real CV file to /public and update this path
+  url: "https://hieu-portfolio-five.vercel.app", // TODO: replace with a custom domain if you set one up
 } as const;
 
 export const navItems: NavItem[] = [
@@ -35,4 +36,12 @@ export const socialLinks: SocialLink[] = [
 export const seoDefaults = {
   title: `${site.name} — ${site.role}`,
   description: site.tagline,
+  keywords: [
+    "frontend developer",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "portfolio",
+    "internship",
+  ],
 };

@@ -2,6 +2,8 @@
 
 A personal portfolio site built with **Next.js**, **TypeScript**, and **Tailwind CSS**, prepared for frontend internship applications.
 
+**Live:** [hieu-portfolio-five.vercel.app](https://hieu-portfolio-five.vercel.app)
+
 ## Getting started
 
 ```bash
@@ -37,16 +39,18 @@ Every placeholder below lives in `src/content/` and is marked with a `TODO` comm
 
 - [ ] `src/content/site.ts` — real email, resume/CV file, confirmed city
 - [ ] `src/content/site.ts` — real GitHub and LinkedIn URLs
+- [ ] `src/content/site.ts` — `url` — swap for a custom domain if you set one up (currently the Vercel deployment URL, used for metadata/OG/sitemap)
 - [ ] `src/content/about.ts` — real bio paragraphs and quick facts (university, program)
 - [ ] `src/content/experience.ts` — real education and work/project history
-- [ ] `src/content/projects.ts` — real projects, links, and case-study write-ups
-- [ ] `public/` — real resume PDF, favicon, and Open Graph image
-- [ ] Confirm the accent color and any project screenshots reflect your taste
+- [ ] `src/content/projects.ts` — real projects, links, and case-study write-ups (including a real screenshot/GIF per project, with descriptive alt text once added)
+- [ ] `public/` — real resume PDF matching `site.resumeUrl`
+- [ ] Confirm the accent color reflects your taste
+- [ ] Optional: replace the generated "HP" monogram favicon/OG image (`src/app/icon.tsx`, `apple-icon.tsx`, `opengraph-image.tsx`) with real brand art
 
 ## Roadmap
 
 - [x] Typed content architecture
-- [ ] Motion system (custom cursor, scroll reveals, hero animation)
-- [ ] Work case-study route (`/work/[slug]`)
-- [ ] SEO metadata, sitemap, and accessibility pass
-- [ ] Deploy to production (Vercel recommended)
+- [x] Motion system (custom cursor, scroll reveals, hero animation, marquee, magnetic CTAs)
+- [x] Work case-study route (`/work/[slug]`)
+- [x] SEO metadata, sitemap, and accessibility pass
+- [x] Deploy to production (Vercel)
