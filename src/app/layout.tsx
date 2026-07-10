@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { MotionProvider } from "@/components/motion/motion-provider";
-import { seoDefaults } from "@/content/site";
+import { seoDefaults, site } from "@/content/site";
 
 import "./globals.css";
 
@@ -19,8 +19,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: seoDefaults.title,
+  metadataBase: new URL(site.url),
+  title: {
+    default: seoDefaults.title,
+    template: `%s — ${site.name}`,
+  },
   description: seoDefaults.description,
+  keywords: seoDefaults.keywords,
+  authors: [{ name: site.name }],
+  creator: site.name,
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    url: site.url,
+    title: seoDefaults.title,
+    description: seoDefaults.description,
+    siteName: site.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: seoDefaults.title,
+    description: seoDefaults.description,
+  },
 };
 
 export default function RootLayout({
