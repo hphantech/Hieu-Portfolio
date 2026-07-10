@@ -3,57 +3,17 @@ import Link from "next/link";
 import { Marquee } from "@/components/motion/marquee";
 import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/section-heading";
+import { Hero } from "@/components/sections/hero";
 import { aboutParagraphs, quickFacts } from "@/content/about";
 import { experienceEntries } from "@/content/experience";
 import { projects } from "@/content/projects";
 import { skillGroups, skillsTicker } from "@/content/skills";
-import { site, socialLinks } from "@/content/site";
+import { socialLinks } from "@/content/site";
 
 export default function Home() {
   return (
     <main id="main-content" className="flex-1">
-      <section
-        aria-labelledby="hero-heading"
-        className="border-border/60 bg-surface border-b"
-      >
-        <Reveal
-          as="div"
-          className="mx-auto w-full max-w-5xl px-6 py-20 sm:py-28"
-        >
-          <p className="text-accent mb-4 text-sm font-medium tracking-[0.2em] uppercase">
-            {site.role}
-          </p>
-          <h1
-            id="hero-heading"
-            className="text-foreground max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl sm:leading-tight"
-          >
-            Hi, I&apos;m {site.name}.
-          </h1>
-          <p className="text-muted mt-6 max-w-2xl text-lg leading-8">
-            {site.tagline} Based in the {site.location}, I&apos;m building this
-            portfolio to showcase my work ahead of frontend internship
-            applications.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-4">
-            <a
-              href="#work"
-              className="bg-foreground text-background inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-opacity hover:opacity-85"
-              data-cursor-hover
-            >
-              View work
-            </a>
-            <a
-              href={socialLinks[0].href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-border text-foreground hover:bg-surface inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors"
-              data-cursor-hover
-            >
-              GitHub
-            </a>
-          </div>
-        </Reveal>
-      </section>
+      <Hero />
 
       <section
         id="about"
