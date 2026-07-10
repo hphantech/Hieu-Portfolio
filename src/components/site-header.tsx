@@ -1,25 +1,25 @@
 import Link from "next/link";
 
-import { navItems, siteConfig } from "@/lib/site";
+import { navItems, site } from "@/content/site";
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-border/60 bg-background/80 backdrop-blur-sm">
+    <header className="border-border/60 bg-background/80 border-b backdrop-blur-sm">
       <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-6 px-6 py-5">
         <Link
           href="/"
-          className="text-sm font-semibold tracking-tight text-foreground transition-opacity hover:opacity-70"
+          className="text-foreground text-sm font-semibold tracking-tight transition-opacity hover:opacity-70"
         >
-          {siteConfig.name}
+          {site.name}
         </Link>
 
         <nav aria-label="Primary">
-          <ul className="flex flex-wrap items-center gap-5 text-sm text-muted">
+          <ul className="text-muted flex flex-wrap items-center gap-5 text-sm">
             {navItems.map((item) => (
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="transition-colors hover:text-foreground"
+                  className="hover:text-foreground transition-colors"
                 >
                   {item.label}
                 </a>
