@@ -4,17 +4,21 @@ type SectionHeadingProps = {
   description?: string;
 };
 
-export function SectionHeading({ id, title, description }: SectionHeadingProps) {
+export function SectionHeading({
+  id,
+  title,
+  description,
+}: SectionHeadingProps) {
   return (
     <header className="mb-10 max-w-2xl">
       <h2
         id={id}
-        className="text-sm font-medium uppercase tracking-[0.2em] text-accent"
+        className="text-accent text-sm font-medium tracking-[0.2em] uppercase"
       >
         {title}
       </h2>
       {description ? (
-        <p className="mt-3 text-lg text-muted">{description}</p>
+        <p className="text-muted mt-3 text-lg">{description}</p>
       ) : null}
     </header>
   );
