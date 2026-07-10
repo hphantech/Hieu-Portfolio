@@ -71,8 +71,8 @@ export function Hero() {
         <motion.h1
           id="hero-heading"
           className="text-foreground max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl sm:leading-tight"
-          initial={shouldReduceMotion ? undefined : "hidden"}
-          animate={shouldReduceMotion ? undefined : "visible"}
+          initial="hidden"
+          animate="visible"
           variants={container}
         >
           {words.map((w, index) => (
