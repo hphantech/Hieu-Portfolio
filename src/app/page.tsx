@@ -1,10 +1,12 @@
 import Link from "next/link";
 
+import { Marquee } from "@/components/motion/marquee";
+import { Reveal } from "@/components/motion/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { aboutParagraphs, quickFacts } from "@/content/about";
 import { experienceEntries } from "@/content/experience";
 import { projects } from "@/content/projects";
-import { skillGroups } from "@/content/skills";
+import { skillGroups, skillsTicker } from "@/content/skills";
 import { site, socialLinks } from "@/content/site";
 
 export default function Home() {
@@ -14,7 +16,10 @@ export default function Home() {
         aria-labelledby="hero-heading"
         className="border-border/60 bg-surface border-b"
       >
-        <div className="mx-auto w-full max-w-5xl px-6 py-20 sm:py-28">
+        <Reveal
+          as="div"
+          className="mx-auto w-full max-w-5xl px-6 py-20 sm:py-28"
+        >
           <p className="text-accent mb-4 text-sm font-medium tracking-[0.2em] uppercase">
             {site.role}
           </p>
@@ -33,6 +38,7 @@ export default function Home() {
             <a
               href="#work"
               className="bg-foreground text-background inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-opacity hover:opacity-85"
+              data-cursor-hover
             >
               View work
             </a>
@@ -41,11 +47,12 @@ export default function Home() {
               target="_blank"
               rel="noopener noreferrer"
               className="border-border text-foreground hover:bg-surface inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors"
+              data-cursor-hover
             >
               GitHub
             </a>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       <section
@@ -58,7 +65,7 @@ export default function Home() {
           title="About"
           description="A short introduction to who you are, what you're studying, and what kind of frontend work excites you."
         />
-        <div className="grid gap-10 md:grid-cols-[2fr_1fr]">
+        <Reveal className="grid gap-10 md:grid-cols-[2fr_1fr]">
           <div className="text-muted max-w-3xl space-y-4 text-base leading-8">
             {aboutParagraphs.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
@@ -74,7 +81,7 @@ export default function Home() {
               </div>
             ))}
           </dl>
-        </div>
+        </Reveal>
       </section>
 
       <section
@@ -88,7 +95,7 @@ export default function Home() {
             title="Skills"
             description="Technologies and practices I'm building with."
           />
-          <div className="grid gap-8 sm:grid-cols-2">
+          <Reveal className="grid gap-8 sm:grid-cols-2">
             {skillGroups.map((group) => (
               <div key={group.title}>
                 <h3 className="text-muted text-sm font-medium tracking-[0.15em] uppercase">
@@ -106,7 +113,8 @@ export default function Home() {
                 </ul>
               </div>
             ))}
-          </div>
+          </Reveal>
+          <Marquee items={skillsTicker} className="mt-10" />
         </div>
       </section>
 
@@ -121,9 +129,11 @@ export default function Home() {
           description="Education and hands-on work, most recent first."
         />
         <ol className="space-y-6">
-          {experienceEntries.map((entry) => (
-            <li
+          {experienceEntries.map((entry, index) => (
+            <Reveal
               key={entry.id}
+              as="li"
+              delay={index * 0.08}
               className="border-border bg-surface rounded-2xl border p-6"
             >
               <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -154,7 +164,7 @@ export default function Home() {
                   ))}
                 </ul>
               ) : null}
-            </li>
+            </Reveal>
           ))}
         </ol>
       </section>
@@ -171,9 +181,11 @@ export default function Home() {
             description="Placeholder projects for now — swap these with real case studies."
           />
           <div className="grid gap-6 md:grid-cols-2">
-            {projects.map((project) => (
-              <article
+            {projects.map((project, index) => (
+              <Reveal
                 key={project.slug}
+                as="article"
+                delay={index * 0.08}
                 className="border-border bg-background flex h-full flex-col rounded-2xl border p-6"
               >
                 <h3 className="text-foreground text-xl font-semibold">
@@ -198,10 +210,11 @@ export default function Home() {
                 <Link
                   href={`/work/${project.slug}`}
                   className="text-accent mt-6 inline-flex text-sm font-medium transition-opacity hover:opacity-70"
+                  data-cursor-hover
                 >
                   View case study →
                 </Link>
-              </article>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -217,25 +230,30 @@ export default function Home() {
           title="Contact"
           description="Open to internship opportunities, collaborations, and feedback."
         />
-        <address className="not-italic">
-          <ul className="text-muted space-y-3 text-base">
-            {socialLinks.map((link) => (
-              <li key={link.label}>
-                <span className="text-foreground font-medium">
-                  {link.label}:{" "}
-                </span>
-                <a
-                  href={link.href}
-                  target={link.icon === "mail" ? undefined : "_blank"}
-                  rel={link.icon === "mail" ? undefined : "noopener noreferrer"}
-                  className="text-accent transition-opacity hover:opacity-70"
-                >
-                  {link.href}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </address>
+        <Reveal>
+          <address className="not-italic">
+            <ul className="text-muted space-y-3 text-base">
+              {socialLinks.map((link) => (
+                <li key={link.label}>
+                  <span className="text-foreground font-medium">
+                    {link.label}:{" "}
+                  </span>
+                  <a
+                    href={link.href}
+                    target={link.icon === "mail" ? undefined : "_blank"}
+                    rel={
+                      link.icon === "mail" ? undefined : "noopener noreferrer"
+                    }
+                    className="text-accent transition-opacity hover:opacity-70"
+                    data-cursor-hover
+                  >
+                    {link.href}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </address>
+        </Reveal>
       </section>
     </main>
   );
