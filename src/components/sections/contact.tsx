@@ -34,7 +34,6 @@ export function Contact() {
               <a
                 href={email.href}
                 className="bg-foreground text-background inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition-opacity hover:opacity-85"
-                data-cursor-hover
               >
                 Say hello
                 <Send aria-hidden="true" className="h-4 w-4" />
@@ -47,7 +46,6 @@ export function Contact() {
               href={site.resumeUrl}
               download
               className="border-border text-foreground hover:bg-surface inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition-colors"
-              data-cursor-hover
             >
               Download CV
               <Download aria-hidden="true" className="h-4 w-4" />
@@ -66,7 +64,6 @@ export function Contact() {
                   target={link.icon === "mail" ? undefined : "_blank"}
                   rel={link.icon === "mail" ? undefined : "noopener noreferrer"}
                   className="text-muted hover:text-foreground inline-flex items-center gap-2 transition-colors"
-                  data-cursor-hover
                 >
                   <SocialIcon icon={link.icon} className="h-4 w-4" />
                   {link.label}

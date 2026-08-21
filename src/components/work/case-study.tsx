@@ -15,7 +15,6 @@ export function CaseStudy({ project }: CaseStudyProps) {
         <Link
           href="/#work"
           className="text-muted inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
-          data-cursor-hover
         >
           <ArrowLeft aria-hidden="true" className="h-4 w-4" />
           Back to work
@@ -92,7 +91,6 @@ export function CaseStudy({ project }: CaseStudyProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="border-border text-foreground inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-medium transition-opacity hover:opacity-70"
-              data-cursor-hover
             >
               {link.label}
               <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />

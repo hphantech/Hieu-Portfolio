@@ -25,7 +25,6 @@ export function SiteFooter() {
                   target={link.icon === "mail" ? undefined : "_blank"}
                   rel={link.icon === "mail" ? undefined : "noopener noreferrer"}
                   className="text-muted hover:text-foreground transition-colors"
-                  data-cursor-hover
                 >
                   <span className="sr-only">{link.label}</span>
                   <SocialIcon icon={link.icon} className="h-4 w-4" />
@@ -37,7 +36,6 @@ export function SiteFooter() {
           <a
             href="#main-content"
             className="text-muted hover:text-foreground border-border inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors"
-            data-cursor-hover
           >
             <ArrowUp aria-hidden="true" className="h-3.5 w-3.5" />
             Back to top
