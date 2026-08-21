@@ -46,16 +46,6 @@ body {
   outline-offset: 3px;
 }
 
-/* Hide the native cursor only when the decorative custom cursor is active
-   (desktop pointer, motion allowed). The custom cursor is purely visual and
-   never intercepts pointer events or focus, so keyboard/touch use is unaffected. */
-@media (pointer: fine) {
-  html.custom-cursor-active,
-  html.custom-cursor-active * {
-    cursor: none;
-  }
-}
-
 @keyframes marquee {
   from {
     transform: translateX(0);

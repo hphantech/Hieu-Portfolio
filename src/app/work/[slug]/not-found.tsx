@@ -23,7 +23,6 @@ export default function WorkNotFound() {
       <Link
         href="/#work"
         className="text-accent mt-6 inline-flex text-sm font-medium transition-opacity hover:opacity-70"
-        data-cursor-hover
       >
         ← Back to work
       </Link>

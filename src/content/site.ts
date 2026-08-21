@@ -17,6 +17,7 @@ export const site = {
   email: "hello@example.com", // TODO: replace with your real email
   resumeUrl: "/resume-placeholder.pdf", // TODO: add a real CV file to /public and update this path
   url: "https://hieu-portfolio-five.vercel.app", // TODO: replace with a custom domain if you set one up
+  repoUrl: "https://github.com/hphantech/Hieu-Portfolio",
 } as const;
 
 export const navItems: NavItem[] = [

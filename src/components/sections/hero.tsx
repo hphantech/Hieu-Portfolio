@@ -54,7 +54,7 @@ export function Hero() {
         className="from-accent/25 pointer-events-none absolute top-[-10%] right-[-10%] h-[420px] w-[420px] rounded-full bg-gradient-to-br to-transparent blur-3xl"
       />
 
-      <div className="relative mx-auto w-full max-w-5xl px-6 py-20 sm:py-28">
+      <div className="relative mx-auto w-full max-w-5xl px-6 pt-28 pb-20 sm:pt-36 sm:pb-28">
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -106,7 +106,6 @@ export function Hero() {
           <a
             href="#work"
             className="bg-foreground text-background inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition-opacity hover:opacity-85"
-            data-cursor-hover
           >
             View work
           </a>
@@ -115,7 +114,6 @@ export function Hero() {
             target="_blank"
             rel="noopener noreferrer"
             className="border-border text-foreground hover:bg-surface inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-colors"
-            data-cursor-hover
           >
             GitHub
           </a>

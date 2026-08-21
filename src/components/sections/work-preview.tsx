@@ -48,7 +48,6 @@ export function WorkPreview() {
               <Link
                 href={`/work/${project.slug}`}
                 className="text-accent mt-6 inline-flex text-sm font-medium transition-opacity hover:opacity-70"
-                data-cursor-hover
               >
                 View case study →
               </Link>
