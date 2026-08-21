@@ -103,8 +103,21 @@ export function UnderlayNav() {
 
       tl.set(overlayEl, { visibility: "visible", pointerEvents: "auto" }, 0);
 
-      tl.to(
+      /**
+       * `fromTo` (not `to`) is deliberate: `tl.invalidate()` — called on every
+       * reopen so `getMenuOffset()` re-measures the menu after a resize — also
+       * wipes the cached *start* value of every tween in the timeline, not
+       * just its end value. A `.to()` tween's start is implicit (whatever the
+       * element's live position happens to be), so invalidating while a close
+       * is only a few ms into flight recaptures "start" as "still basically
+       * open" instead of the true closed position — `restart()` then animates
+       * from ~open to ~open, and the menu silently gets stuck open. Pinning
+       * `x: 0` explicitly keeps this tween's start correct no matter when
+       * it's interrupted.
+       */
+      tl.fromTo(
         [mainEl, overlayEl],
+        { x: 0 },
         {
           x: getMenuOffset,
           duration: 0.7 * s,
@@ -230,8 +243,9 @@ export function UnderlayNav() {
         "<",
       )
 
-        .to(
+        .fromTo(
           [mainEl, overlayEl],
+          { x: getMenuOffset },
           {
             x: 0,
             duration: 0.6 * s,
@@ -328,9 +342,21 @@ export function UnderlayNav() {
         tl.invalidate();
         if (tl.time() >= enterEndTime) tl.timeScale(1).restart();
         else tl.timeScale(1).play();
+      } else if (tl.time() < enterEndTime) {
+        tl.timeScale(1).reverse();
       } else {
-        if (tl.time() < enterEndTime) tl.timeScale(1).reverse();
-        else tl.timeScale(1).play();
+        /**
+         * Closing from the fully-open resting position means the playhead
+         * sits exactly on the `addPause()` inserted at `enterEndTime`.
+         * Resuming with a bare `.play()` from that exact instant can get
+         * re-paused on the very next tick — GSAP treats resuming play from
+         * the same spot a pause lives at as "still at the pause", so it
+         * fires again immediately and the close animation never advances
+         * (the menu is then stuck open forever, even though React's `isOpen`
+         * state has already flipped to closed). Nudging the playhead a hair
+         * past that boundary before playing avoids the re-trigger.
+         */
+        tl.timeScale(1).play(Math.max(tl.time(), enterEndTime + 0.001));
       }
     }
 
