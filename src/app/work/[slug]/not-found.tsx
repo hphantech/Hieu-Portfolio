@@ -17,7 +17,7 @@ export default function WorkNotFound() {
       <h1 className="text-foreground mt-3 text-3xl font-bold tracking-tight">
         Project not found
       </h1>
-      <p className="text-muted mt-3 text-base leading-7">
+      <p className="text-muted-foreground mt-3 text-base leading-7">
         That case study doesn&apos;t exist, or the link may be out of date.
       </p>
       <Link

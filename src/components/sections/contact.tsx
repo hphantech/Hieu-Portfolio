@@ -17,7 +17,7 @@ export function Contact() {
     >
       <SectionHeading
         id="contact-heading"
-        index="05"
+        index="04"
         title="Contact"
         description="Open to internship opportunities, collaborations, and feedback."
       />
@@ -63,7 +63,7 @@ export function Contact() {
                   href={link.href}
                   target={link.icon === "mail" ? undefined : "_blank"}
                   rel={link.icon === "mail" ? undefined : "noopener noreferrer"}
-                  className="text-muted hover:text-foreground inline-flex items-center gap-2 transition-colors"
+                  className="text-muted-foreground hover:text-foreground inline-flex items-center gap-2 transition-colors"
                 >
                   <SocialIcon icon={link.icon} className="h-4 w-4" />
                   {link.label}

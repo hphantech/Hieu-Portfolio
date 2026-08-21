@@ -14,7 +14,7 @@ export function CaseStudy({ project }: CaseStudyProps) {
       <Reveal>
         <Link
           href="/#work"
-          className="text-muted inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
+          className="text-muted-foreground inline-flex items-center gap-2 text-sm font-medium transition-opacity hover:opacity-70"
         >
           <ArrowLeft aria-hidden="true" className="h-4 w-4" />
           Back to work
@@ -28,7 +28,7 @@ export function CaseStudy({ project }: CaseStudyProps) {
         <h1 className="text-foreground mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
           {project.title}
         </h1>
-        <dl className="text-muted mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
+        <dl className="text-muted-foreground mt-6 flex flex-wrap gap-x-8 gap-y-2 text-sm">
           <div className="flex gap-2">
             <dt className="text-foreground font-medium">Role</dt>
             <dd>{project.role}</dd>
@@ -45,7 +45,7 @@ export function CaseStudy({ project }: CaseStudyProps) {
           {project.tech.map((tech) => (
             <li
               key={tech}
-              className="border-border bg-surface text-muted rounded-md border px-2.5 py-1 font-mono text-xs"
+              className="border-border bg-surface text-muted-foreground rounded-md border px-2.5 py-1 font-mono text-xs"
             >
               {tech}
             </li>
@@ -60,7 +60,7 @@ export function CaseStudy({ project }: CaseStudyProps) {
       >
         {/* TODO: replace with a real project screenshot or GIF. */}
         <div className="flex h-full items-center justify-center">
-          <span className="text-muted text-sm">
+          <span className="text-muted-foreground text-sm">
             Add a project screenshot here
           </span>
         </div>

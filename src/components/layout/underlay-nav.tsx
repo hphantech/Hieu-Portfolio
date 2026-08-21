@@ -114,6 +114,16 @@ export function UnderlayNav() {
        * from ~open to ~open, and the menu silently gets stuck open. Pinning
        * `x: 0` explicitly keeps this tween's start correct no matter when
        * it's interrupted.
+       *
+       * `immediateRender: false` is required alongside it: `fromTo()`/`from()`
+       * tweens default to `immediateRender: true`, which paints their "from"
+       * value the instant the tween is *constructed* — not when playback
+       * actually reaches it. Both this tween and the mirrored closing one
+       * below get built synchronously on mount, so without this flag the
+       * closing tween's "from" (`x: getMenuOffset`) would paint last and
+       * leave the menu looking open before anyone touches it. The explicit
+       * `gsap.set(mainEl, { x: 0 })` above already establishes the real
+       * initial paint, so neither tween needs to render on creation.
        */
       tl.fromTo(
         [mainEl, overlayEl],
@@ -121,6 +131,7 @@ export function UnderlayNav() {
         {
           x: getMenuOffset,
           duration: 0.7 * s,
+          immediateRender: false,
         },
         0,
       )
@@ -249,6 +260,7 @@ export function UnderlayNav() {
           {
             x: 0,
             duration: 0.6 * s,
+            immediateRender: false,
           },
           "<",
         )
@@ -417,7 +429,7 @@ export function UnderlayNav() {
           className="bg-accent absolute inset-x-0 top-0 h-[2px] origin-left"
           style={{ scaleX: scrollYProgress }}
         />
-        <div className="flex items-center justify-between p-5 sm:p-8">
+        <div className="flex items-start justify-between p-5 sm:p-8">
           <Link
             href="/"
             className="text-sm font-semibold tracking-tight transition-opacity hover:opacity-70"
@@ -425,33 +437,35 @@ export function UnderlayNav() {
             {site.name}
           </Link>
 
-          <button
-            ref={toggleBtnRef}
-            type="button"
-            aria-expanded={isOpen}
-            aria-controls="underlay-nav-menu"
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            className="-m-4 flex items-center gap-3 p-4"
-          >
-            <span
-              aria-hidden="true"
-              className="flex h-6 w-12 flex-col items-end overflow-hidden text-base font-medium"
+          <div className="flex items-start gap-2 sm:gap-3">
+            <button
+              ref={toggleBtnRef}
+              type="button"
+              aria-expanded={isOpen}
+              aria-controls="underlay-nav-menu"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              className="-m-4 mt-0 flex items-center gap-3 p-4"
             >
-              <span data-toggle-label className="leading-6">
-                Menu
+              <span
+                aria-hidden="true"
+                className="flex h-6 w-12 flex-col items-end overflow-hidden text-base font-medium"
+              >
+                <span data-toggle-label className="leading-6">
+                  Menu
+                </span>
+                <span data-toggle-label className="leading-6">
+                  Close
+                </span>
               </span>
-              <span data-toggle-label className="leading-6">
-                Close
+              <span
+                aria-hidden="true"
+                className="flex h-6 w-6 flex-col items-center justify-center gap-1.5"
+              >
+                <span data-toggle-bar className="block h-0.5 w-6 bg-current" />
+                <span data-toggle-bar className="block h-0.5 w-6 bg-current" />
               </span>
-            </span>
-            <span
-              aria-hidden="true"
-              className="flex h-6 w-6 flex-col items-center justify-center gap-1.5"
-            >
-              <span data-toggle-bar className="block h-0.5 w-6 bg-current" />
-              <span data-toggle-bar className="block h-0.5 w-6 bg-current" />
-            </span>
-          </button>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -475,7 +489,16 @@ export function UnderlayNav() {
                     aria-current={isActive ? "page" : undefined}
                     className={cn(
                       "block rounded-md px-4 py-2 text-4xl font-bold tracking-tight transition-colors sm:text-5xl",
-                      isActive ? "bg-accent text-white" : "hover:opacity-70",
+                      /*
+                       * The panel itself is already inverted (`bg-foreground
+                       * text-background`), so the active pill inverts once
+                       * more — `bg-background text-foreground` — to read as
+                       * a solid black/white highlight against it in both
+                       * light and dark mode, without introducing a hue.
+                       */
+                      isActive
+                        ? "bg-background text-foreground"
+                        : "hover:opacity-70",
                     )}
                   >
                     {item.label}

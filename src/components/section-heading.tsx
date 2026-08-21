@@ -17,7 +17,7 @@ export function SectionHeading({
   return (
     <Reveal as="header" className="mb-10 max-w-2xl">
       <div className="flex items-baseline gap-3">
-        <span aria-hidden="true" className="text-muted font-mono text-sm">
+        <span aria-hidden="true" className="text-muted-foreground font-mono text-sm">
           {index}
         </span>
         <h2
@@ -28,7 +28,7 @@ export function SectionHeading({
         </h2>
       </div>
       {description ? (
-        <p className="text-muted mt-3 text-lg">{description}</p>
+        <p className="text-muted-foreground mt-3 text-lg">{description}</p>
       ) : null}
     </Reveal>
   );

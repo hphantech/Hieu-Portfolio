@@ -1,0 +1,51 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  background-color: #141414;
+}
+
+/* Square when the parent doesn't impose a height; ignored when parent fills. */
+.aspect {
+  padding-top: 100%;
+  pointer-events: none;
+}
+
+.defaultLayer,
+.activeLayer,
+.pixels,
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.img {
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+.activeLayer {
+  display: none;
+}
+
+.pixel {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  pointer-events: none;
+}
+
+/* Inside the hero growing-image stage the aspect spacer must not force a square. */
+.fill .aspect {
+  display: none;
+  padding-top: 0;
+}

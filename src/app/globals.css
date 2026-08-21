@@ -1,34 +1,90 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #faf9f7;
+  color-scheme: light;
+  --background: #ffffff;
   --foreground: #141414;
-  --muted: #5c5c5c;
-  --accent: #1d4ed8;
+  /* shadcn: muted = soft fill; muted-foreground = secondary text */
+  --muted: #f4f4f5;
+  --muted-foreground: #5c5c5c;
+  /* Emphasis (eyebrows, progress, active) — black/white only */
+  --accent: #141414;
+  --accent-foreground: #ffffff;
   --border: #e4e4e7;
   --surface: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #141414;
+  --popover: #ffffff;
+  --popover-foreground: #141414;
+  --primary: #141414;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #141414;
+  --destructive: #dc2626;
+  --input: #e4e4e7;
+  --ring: #141414;
+  --radius: 0.625rem;
+  --chart-1: #141414;
+  --chart-2: #52525b;
+  --chart-3: #71717a;
+  --chart-4: #a1a1aa;
+  --chart-5: #d4d4d8;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #141414;
+  --sidebar-primary: #141414;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f4f4f5;
+  --sidebar-accent-foreground: #141414;
+  --sidebar-border: #e4e4e7;
+  --sidebar-ring: #141414;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
+  /* `text-muted` maps here — use the foreground tone so existing call sites
+     keep readable secondary copy. Soft fills use `bg-secondary` / raw var. */
+  --color-muted: var(--muted-foreground);
+  --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
   --color-border: var(--border);
   --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-destructive: var(--destructive);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0c0c0c;
-    --foreground: #f4f4f5;
-    --muted: #a1a1aa;
-    --accent: #60a5fa;
-    --border: #27272a;
-    --surface: #141414;
-  }
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
 }
 
 html {
@@ -42,7 +98,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--foreground);
   outline-offset: 3px;
 }
 
@@ -59,8 +115,6 @@ body {
   animation: marquee linear infinite;
 }
 
-/* Respect reduced-motion preferences globally for any CSS-driven animation
-   (e.g. the marquee), on top of the JS-level checks in motion components. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -69,5 +123,14 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }

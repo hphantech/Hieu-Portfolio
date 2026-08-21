@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { SiteFooter } from "@/components/layout/site-footer";
 import { UnderlayNav } from "@/components/layout/underlay-nav";
+import { LenisProvider } from "@/components/motion/lenis-provider";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { seoDefaults, site } from "@/content/site";
 
@@ -57,23 +58,35 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col overflow-x-clip">
+        {/* Pin to top before hydration so a refreshed mid-page scroll
+            position doesn't stick under the hero intro lock. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{if("scrollRestoration" in history)history.scrollRestoration="manual";window.scrollTo(0,0);}catch(e){}})();`,
+          }}
+        />
         <MotionProvider>
-          <a
-            href="#main-content"
-            className="focus:bg-surface sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-sm"
-          >
-            Skip to main content
-          </a>
-          <UnderlayNav />
-          {/*
-            Everything except the fixed header/menu/overlay lives here.
-            The underlay menu is a sibling positioned behind this wrapper
-            (z-1 vs z-2) — opening it slides this wrapper left to reveal it.
-          */}
-          <div data-main className="relative z-[2] flex flex-1 flex-col">
-            {children}
-            <SiteFooter />
-          </div>
+          <LenisProvider>
+            <a
+              href="#main-content"
+              className="focus:bg-surface sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-sm"
+            >
+              Skip to main content
+            </a>
+            <UnderlayNav />
+            {/*
+              Everything except the fixed header/menu/overlay lives here.
+              The underlay menu is a sibling positioned behind this wrapper
+              (z-1 vs z-2) — opening it slides this wrapper left to reveal it.
+            */}
+            <div
+              data-main
+              className="bg-background relative z-[2] flex flex-1 flex-col"
+            >
+              {children}
+              <SiteFooter />
+            </div>
+          </LenisProvider>
         </MotionProvider>
       </body>
     </html>

@@ -1,0 +1,196 @@
+/*
+ * Sticky card stack with CSS scroll-driven animations.
+ * Cards pin near the top; covered cards tip back and dim as the next
+ * card scrolls over them. No JS — scroll position is the playhead.
+ */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  padding: 10svh 1.5rem;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.headingWrap {
+  width: 100%;
+  max-width: 60em;
+}
+
+.stack {
+  --stack-row: 100svh;
+  --stack-top: 10svh;
+  --stack-card-height: calc(var(--stack-row) - 2 * var(--stack-top));
+  view-timeline-name: --card-stack;
+  display: grid;
+  grid-auto-rows: var(--stack-row);
+  position: relative;
+  width: 100%;
+  max-width: 60em;
+}
+
+.item {
+  --stack-i: 1;
+  position: sticky;
+  top: var(--stack-top);
+  height: var(--stack-card-height);
+  overflow: hidden;
+  border-radius: 2em;
+  padding: 3em;
+  transform-origin: 50% 100%;
+  color: #141414;
+  background-color: #f0f0f0;
+}
+
+.itemToneA {
+  color: #141414;
+  background-color: #f0f0f0;
+}
+
+.itemToneB {
+  color: #f4f4f5;
+  background-color: #141414;
+}
+
+.itemToneC {
+  color: #141414;
+  background-color: #e4e4e7;
+}
+
+.itemToneD {
+  color: #f4f4f5;
+  background-color: #2a2a2a;
+}
+
+.itemToneE {
+  color: #141414;
+  background-color: #d4d4d8;
+}
+
+.inner {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 4em;
+  height: 100%;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  place-items: end start;
+  gap: 2em;
+}
+
+.title {
+  max-width: 8em;
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.meta {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.35;
+  opacity: 0.85;
+}
+
+.bottom {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+  width: 100%;
+  min-height: 8rem;
+  padding: 1.25rem;
+  border-radius: 1.25em;
+  background-color: color-mix(in srgb, currentColor 8%, transparent);
+}
+
+.tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.techItem {
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.4rem;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  background-color: color-mix(in srgb, currentColor 10%, transparent);
+}
+
+.cta {
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.9;
+  transition: opacity 0.15s ease;
+}
+
+.cta:hover {
+  opacity: 0.65;
+}
+
+@supports (width: calc(sibling-index() * 1px)) {
+  .item {
+    --stack-i: sibling-index();
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .item {
+    animation: card-stack-away linear forwards;
+    animation-timeline: --card-stack;
+    animation-range:
+      exit-crossing calc(var(--stack-i, 1) * var(--stack-row) - 100svh)
+      exit-crossing
+        calc(var(--stack-i, 1) * var(--stack-row) - var(--stack-top));
+  }
+
+  .item:last-of-type {
+    animation: none;
+  }
+}
+
+@keyframes card-stack-away {
+  to {
+    transform: perspective(60em) rotateX(25deg) scale(0.85);
+    filter: brightness(0.45);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .item {
+    animation: none;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .item {
+    padding: 2em;
+  }
+
+  .inner {
+    gap: 2em;
+  }
+
+  .top {
+    grid-template-columns: 1fr;
+    place-items: start;
+  }
+}
