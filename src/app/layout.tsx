@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
+import { UnderlayNav } from "@/components/layout/underlay-nav";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { seoDefaults, site } from "@/content/site";
 
@@ -56,7 +56,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col overflow-x-clip">
         <MotionProvider>
           <a
             href="#main-content"
@@ -64,9 +64,16 @@ export default function RootLayout({
           >
             Skip to main content
           </a>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <UnderlayNav />
+          {/*
+            Everything except the fixed header/menu/overlay lives here.
+            The underlay menu is a sibling positioned behind this wrapper
+            (z-1 vs z-2) — opening it slides this wrapper left to reveal it.
+          */}
+          <div data-main className="relative z-[2] flex flex-1 flex-col">
+            {children}
+            <SiteFooter />
+          </div>
         </MotionProvider>
       </body>
     </html>

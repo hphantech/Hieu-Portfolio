@@ -1,0 +1,23 @@
+/*
+ * Decorative "notch" corners that frame the edge where the sliding main
+ * content meets the underlay menu. Kept out of Tailwind because the
+ * multi-stop radial-gradient syntax with CSS custom properties is far more
+ * readable as plain CSS than as an arbitrary-value utility class.
+ */
+.corner {
+  transform-origin: 100% 0;
+  background-image: radial-gradient(
+    circle farthest-side at 0 100%,
+    transparent 99%,
+    var(--surface) 100%
+  );
+}
+
+.cornerBottom {
+  transform-origin: 100% 100%;
+  background-image: radial-gradient(
+    circle farthest-side at 0 0,
+    transparent 99%,
+    var(--surface) 100%
+  );
+}
