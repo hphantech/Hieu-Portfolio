@@ -35,7 +35,7 @@ export function PixelatedImageReveal({
   useGSAP(
     (_context, contextSafe) => {
       const card = cardRef.current;
-      if (!card) return;
+      if (!card || !contextSafe) return;
 
       const animationStepDuration = 0.3;
       const gridSize = 7;
