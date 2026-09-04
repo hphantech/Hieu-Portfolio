@@ -8,9 +8,12 @@ export const story = {
     "I build accessible, kinetic interfaces with React, Next.js, and TypeScript — craft that feels intentional, not noisy.",
     "I'm looking for a Frontend Developer internship from September 2026.",
   ],
-  beforeWork: ["Here are some projects I'm proud of."],
+  beforeAbout: ["Want the fuller picture? Here's who I am beyond the work."],
+  beforeExperience: [
+    "A few stops along the way — internships, co-makers, and collaborations.",
+  ],
   beforeMoreWork: [
-    "If you want to see more projects, take a quick look here.",
+    "Want to see the work itself? Here's a few projects.",
   ],
   beforeContact: [
     "That's a glimpse of how I like to build.",

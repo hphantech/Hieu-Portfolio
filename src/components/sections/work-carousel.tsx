@@ -40,8 +40,8 @@ export function WorkCarousel() {
 
   return (
     <section
-      id="more-work"
-      aria-label="More projects"
+      id="work"
+      aria-label="Projects"
       className={styles.section}
     >
       <div className={styles.stage}>

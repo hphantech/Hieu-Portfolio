@@ -1,8 +1,9 @@
+import { About } from "@/components/sections/about";
 import { Contact } from "@/components/sections/contact";
+import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
 import { Intro } from "@/components/sections/intro";
 import { WorkCarousel } from "@/components/sections/work-carousel";
-import { WorkPreview } from "@/components/sections/work-preview";
 import { StoryLines } from "@/components/story-lines";
 import { story } from "@/content/story";
 
@@ -12,11 +13,17 @@ export default function Home() {
       <Hero />
       <Intro />
       <StoryLines
-        label="Featured work"
+        label="About"
         density="bridge"
-        lines={story.beforeWork}
+        lines={story.beforeAbout}
       />
-      <WorkPreview />
+      <About />
+      <StoryLines
+        label="Experience"
+        density="bridge"
+        lines={story.beforeExperience}
+      />
+      <Experience />
       <StoryLines
         label="More work"
         density="bridge"
