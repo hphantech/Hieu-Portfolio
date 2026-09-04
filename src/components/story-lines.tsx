@@ -81,17 +81,18 @@ export function StoryLines({
             linesClass: "story-line",
             autoSplit: true,
             onSplit: (self) => {
-              gsap.set(self.lines, { yPercent: 120 });
+              gsap.set(self.lines, { yPercent: 100 });
               return gsap.to(self.lines, {
                 yPercent: 0,
-                stagger: 0.1,
-                ease: "none",
+                stagger: 0.16,
+                ease: "power1.out",
                 immediateRender: false,
                 scrollTrigger: {
                   trigger: text,
-                  scrub: true,
-                  start: "clamp(top 90%)",
-                  end: "clamp(center 68%)",
+                  // Number = lag (seconds) — smoothes the scrub catch-up.
+                  scrub: 1.4,
+                  start: "clamp(top 92%)",
+                  end: "clamp(center 42%)",
                   invalidateOnRefresh: true,
                 },
               });

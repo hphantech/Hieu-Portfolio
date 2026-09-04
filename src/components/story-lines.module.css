@@ -8,23 +8,23 @@
 }
 
 .spacer {
-  height: 18vh;
+  height: 22vh;
   width: 100%;
   flex-shrink: 0;
 }
 
 .chapter .container {
-  min-height: 70vh;
-  padding: 8vh 0;
+  min-height: 78vh;
+  padding: 10vh 0;
 }
 
 .bridge .container {
-  min-height: 48vh;
-  padding: 6vh 0;
+  min-height: 58vh;
+  padding: 8vh 0;
 }
 
 .bridge {
-  padding-block: 4vh;
+  padding-block: 6vh;
 }
 
 .container {
