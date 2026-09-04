@@ -3,8 +3,8 @@
   overflow: hidden;
   width: 100%;
   height: 100%;
-  color: #ffffff;
-  background-color: #141414;
+  color: #141414;
+  background-color: #ffffff;
 }
 
 /* Square when the parent doesn't impose a height; ignored when parent fills. */

@@ -10,14 +10,9 @@
   align-items: center;
   gap: 2rem;
   width: 100%;
-  padding: 10svh 1.5rem;
+  padding: 4svh 1.5rem 10svh;
   background: var(--background);
   color: var(--foreground);
-}
-
-.headingWrap {
-  width: 100%;
-  max-width: 60em;
 }
 
 .stack {

@@ -1,7 +1,6 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
 
-import { SectionHeading } from "@/components/section-heading";
 import { featuredProjects } from "@/content/projects";
 import { cn } from "@/lib/utils";
 
@@ -15,25 +14,16 @@ const TONE_CLASSES = [
   styles.itemToneE,
 ] as const;
 
-/** Sticky card stack for Work — CSS scroll-driven tilt as cards cover each other. */
+/** Sticky card stack for featured work. */
 export function WorkPreview() {
   const stackProjects = featuredProjects;
 
   return (
     <section
       id="work"
-      aria-labelledby="work-heading"
+      aria-label="Featured projects"
       className={styles.section}
     >
-      <div className={styles.headingWrap}>
-        <SectionHeading
-          id="work-heading"
-          index="02"
-          title="Work"
-          description="Selected projects — scroll to stack through them, then open a case study."
-        />
-      </div>
-
       <div className={styles.stack}>
         {stackProjects.map((project, index) => (
           <article

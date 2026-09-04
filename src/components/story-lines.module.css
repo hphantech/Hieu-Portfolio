@@ -8,21 +8,29 @@
 }
 
 .spacer {
-  height: 20vh;
+  height: 18vh;
   width: 100%;
   flex-shrink: 0;
 }
 
-/*
- * Tall triggers so clamp(top center) → clamp(bottom center) has real
- * scroll distance (matches the demo feel on short paragraphs).
- */
+.chapter .container {
+  min-height: 70vh;
+  padding: 8vh 0;
+}
+
+.bridge .container {
+  min-height: 48vh;
+  padding: 6vh 0;
+}
+
+.bridge {
+  padding-block: 4vh;
+}
+
 .container {
   display: flex;
   align-items: center;
   width: min(90vw, 42rem);
-  min-height: 100vh;
-  padding: 12vh 0;
   box-sizing: border-box;
 }
 
@@ -42,6 +50,6 @@
   will-change: transform;
 }
 
-:global(.intro-line) {
+:global(.story-line) {
   overflow: hidden;
 }

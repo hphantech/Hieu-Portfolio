@@ -16,8 +16,12 @@ export const site = {
     "Available for a Frontend Developer internship from September 2026",
   email: "hello@example.com", // TODO: replace with your real email
   resumeUrl: "/resume-placeholder.pdf", // TODO: add a real CV file to /public and update this path
+  /** Ambient loop for the nav mute button. */
+  musicUrl: "/alex-morgan-lofi-midnight-club-568164.mp3",
   url: "https://hieu-portfolio-five.vercel.app", // TODO: replace with a custom domain if you set one up
   repoUrl: "https://github.com/hphantech/Hieu-Portfolio",
+  githubUsername: "hphantech",
+  socialGithubUrl: "https://github.com/hphantech",
 } as const;
 
 export const navItems: NavItem[] = [

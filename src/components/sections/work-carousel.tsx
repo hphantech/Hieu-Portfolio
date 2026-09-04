@@ -1,12 +1,11 @@
 "use client";
 
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-import { SectionHeading } from "@/components/section-heading";
 import { moreProjects } from "@/content/projects";
 import { cn } from "@/lib/utils";
 
@@ -14,14 +13,19 @@ import styles from "./work-carousel.module.css";
 
 /**
  * 3D cover-flow carousel for additional work — wide landscape frames
- * suited to website page screenshots.
+ * suited to website page screenshots. Past the last slide: a subtle
+ * “want to see more?” CTA that links to the full archive.
  */
 export function WorkCarousel() {
   const slides = moreProjects.filter((p) => p.cover);
+  const ctaIndex = slides.length;
+  const total = slides.length + 1;
+
   const [activeIndex, setActiveIndex] = useState(
     Math.min(2, Math.max(0, slides.length - 1)),
   );
   const prefersReducedMotion = useReducedMotion();
+  const isCta = activeIndex === ctaIndex;
 
   if (slides.length === 0) return null;
 
@@ -31,30 +35,21 @@ export function WorkCarousel() {
 
   const toPrev = () => setActiveIndex((prev) => Math.max(0, prev - 1));
   const toNext = () =>
-    setActiveIndex((prev) => Math.min(slides.length - 1, prev + 1));
+    setActiveIndex((prev) => Math.min(total - 1, prev + 1));
   const toSlide = (index: number) => setActiveIndex(index);
 
   return (
     <section
       id="more-work"
-      aria-labelledby="more-work-heading"
+      aria-label="More projects"
       className={styles.section}
     >
-      <div className={styles.headingWrap}>
-        <SectionHeading
-          id="more-work-heading"
-          index="03"
-          title="More work"
-          description="Browse page screenshots — wider frames for desktop layouts."
-        />
-      </div>
-
       <div className={styles.stage}>
         <div className={styles.viewport}>
           <motion.div
             className={styles.track}
             animate={{
-              x: `${(-activeIndex * 100) / slides.length}%`,
+              x: `${(-activeIndex * 100) / total}%`,
             }}
             transition={spring}
           >
@@ -117,11 +112,16 @@ export function WorkCarousel() {
                         opacity: isActive ? 1 : 0,
                       }}
                       transition={
-                        prefersReducedMotion ? { duration: 0 } : { duration: 0.35 }
+                        prefersReducedMotion
+                          ? { duration: 0 }
+                          : { duration: 0.35 }
                       }
                     >
                       <p className={styles.captionTitle}>{project.title}</p>
-                      <span className={styles.captionMeta} aria-hidden={!isActive}>
+                      <span
+                        className={styles.captionMeta}
+                        aria-hidden={!isActive}
+                      >
                         {project.year} · {project.role}
                       </span>
                     </motion.div>
@@ -129,6 +129,33 @@ export function WorkCarousel() {
                 </div>
               );
             })}
+
+            <div className={styles.slide}>
+              <motion.div
+                className={styles.ctaCard}
+                animate={{
+                  rotateY: prefersReducedMotion
+                    ? 0
+                    : (activeIndex - ctaIndex) * 42,
+                  scale: isCta ? 1 : 0.88,
+                  opacity: isCta ? 1 : 0.45,
+                }}
+                transition={
+                  prefersReducedMotion
+                    ? { duration: 0 }
+                    : { type: "spring", bounce: 0.08, duration: 1 }
+                }
+              >
+                <p className={styles.ctaEyebrow}>Want to see more?</p>
+                <p className={styles.ctaCopy}>
+                  The full archive has every project in one place.
+                </p>
+                <Link href="/work" className={styles.ctaButton}>
+                  Browse all projects
+                  <ArrowRight aria-hidden="true" className="size-4" />
+                </Link>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
 
@@ -162,12 +189,23 @@ export function WorkCarousel() {
                 )}
               />
             ))}
+            <button
+              type="button"
+              role="tab"
+              aria-selected={isCta}
+              aria-label="See more projects"
+              onClick={() => toSlide(ctaIndex)}
+              className={cn(
+                styles.dot,
+                isCta ? styles.dotActive : styles.dotIdle,
+              )}
+            />
           </div>
 
           <button
             type="button"
             onClick={toNext}
-            disabled={activeIndex === slides.length - 1}
+            disabled={isCta}
             aria-label="Next project"
             className={styles.controlBtn}
           >

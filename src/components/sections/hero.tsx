@@ -15,8 +15,8 @@ import styles from "./hero.module.css";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const HERO_IMAGE_DEFAULT = "/images/hero/default.png";
-const HERO_IMAGE_ACTIVE = "/images/hero/active.png";
+const HERO_IMAGE_DEFAULT = "/images/brand.png";
+const HERO_IMAGE_ACTIVE = "/images/hero/default.png";
 
 /** Split so the loader box grows in the middle of "Hieu": "Hi" + box + "eu". */
 const LOADER_START = ["H", "i"];
@@ -241,7 +241,7 @@ export function Hero() {
                     className={styles.pixelReveal}
                     defaultSrc={HERO_IMAGE_DEFAULT}
                     activeSrc={HERO_IMAGE_ACTIVE}
-                    alt="Hieu Phan"
+                    alt="Illustrated portrait of Hieu at a desk"
                   />
                 </div>
               </div>

@@ -117,11 +117,16 @@ body:has(.header.isLoading) {
   height: 100%;
 }
 
-/* Pixel reveal fills the expanding stage (not a floating 30vw card). */
+/* Pixel reveal fills the expanding stage — contain keeps the full desk scene. */
 .pixelReveal {
   width: 100%;
   height: 100%;
-  border-radius: 0;
+  border-radius: inherit;
+}
+
+.pixelReveal img {
+  object-fit: contain;
+  object-position: center;
 }
 
 .content {

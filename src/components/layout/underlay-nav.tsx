@@ -6,6 +6,7 @@ import { motion, useReducedMotion, useScroll } from "motion/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
+import { MuteButton } from "@/components/mute-button";
 import { SocialIcon } from "@/components/social-icon";
 import { navItems, site, socialLinks } from "@/content/site";
 import { useActiveSection } from "@/hooks/use-active-section";
@@ -438,6 +439,10 @@ export function UnderlayNav() {
           </Link>
 
           <div className="flex items-start gap-2 sm:gap-3">
+            <MuteButton
+              src={site.musicUrl || undefined}
+              className="mt-0.5"
+            />
             <button
               ref={toggleBtnRef}
               type="button"
