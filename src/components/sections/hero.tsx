@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 
 import { useLenisInstance } from "@/components/motion/lenis-provider";
-import { PixelatedImageReveal } from "@/components/pixelated-image-reveal";
 import { Typewriter } from "@/components/typewriter";
 import { site, socialLinks } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -15,8 +14,7 @@ import styles from "./hero.module.css";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-const HERO_IMAGE_DEFAULT = "/images/brand.png";
-const HERO_IMAGE_ACTIVE = "/images/hero/default.png";
+const HERO_IMAGE = "/images/brand.png";
 
 /** Split so the loader box grows in the middle of "Hieu": "Hi" + box + "eu". */
 const LOADER_START = ["H", "i"];
@@ -236,12 +234,12 @@ export function Hero() {
             <div className={styles.boxInner}>
               <div className={styles.growingImage}>
                 <div className={styles.growingImageWrap}>
-                  <PixelatedImageReveal
-                    fill
-                    className={styles.pixelReveal}
-                    defaultSrc={HERO_IMAGE_DEFAULT}
-                    activeSrc={HERO_IMAGE_ACTIVE}
+                  {/* eslint-disable-next-line @next/next/no-img-element -- local hero asset sized by CSS */}
+                  <img
+                    src={HERO_IMAGE}
                     alt="Illustrated portrait of Hieu at a desk"
+                    className={styles.heroImage}
+                    draggable={false}
                   />
                 </div>
               </div>

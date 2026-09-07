@@ -584,12 +584,12 @@ export function UnderlayNav() {
         <div ref={darkRef} className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 flex flex-col justify-between">
           <div data-border-row className="flex flex-col items-end">
-            <div className="bg-surface h-4 w-full" />
+            <div className="h-4 w-full bg-black" />
             <div data-corner className={cn("h-8 w-8", styles.corner)} />
           </div>
           <div data-border-row className="flex flex-col items-end">
             <div data-corner className={cn("h-8 w-8", styles.cornerBottom)} />
-            <div className="bg-surface h-4 w-full" />
+            <div className="h-4 w-full bg-black" />
           </div>
         </div>
       </div>

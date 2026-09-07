@@ -4,6 +4,7 @@ import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
 import { Intro } from "@/components/sections/intro";
 import { WorkCarousel } from "@/components/sections/work-carousel";
+import { SplitWordHeadline } from "@/components/split-word-headline";
 import { StoryLines } from "@/components/story-lines";
 import { story } from "@/content/story";
 
@@ -12,11 +13,10 @@ export default function Home() {
     <main id="main-content" className="flex-1">
       <Hero />
       <Intro />
-      <StoryLines
-        label="About"
-        density="bridge"
-        lines={story.beforeAbout}
-      />
+      <SplitWordHeadline>
+        {story.beforeAbout}
+        <sup>↓</sup>
+      </SplitWordHeadline>
       <About />
       <StoryLines
         label="Experience"

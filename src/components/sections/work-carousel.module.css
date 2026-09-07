@@ -236,9 +236,9 @@
   font-weight: 500;
   text-decoration: none;
   color: var(--foreground);
-  transition:
-    background-color 0.15s ease,
-    opacity 0.15s ease;
+  transform-origin: center;
+  will-change: transform;
+  transition: background-color 0.15s ease;
 }
 
 .ctaButton:hover {

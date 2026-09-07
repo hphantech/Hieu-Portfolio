@@ -1,234 +1,297 @@
 .section {
   width: 100%;
-  padding: 4rem 1.5rem 5rem;
   box-sizing: border-box;
   background: var(--background);
   color: var(--foreground);
+  overflow-x: clip;
+}
+
+.spacer {
+  height: 12vh;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.chapter {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 100dvh;
+  padding: 10vh 1.25rem;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 @media (min-width: 640px) {
-  .section {
+  .chapter {
     padding-inline: 2rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .section {
-    padding-inline: 3rem;
-    padding-block: 5rem 6rem;
+@media (min-width: 1100px) {
+  .chapter {
+    padding-inline: 3.5rem;
   }
 }
 
-.inner {
-  width: min(100%, 72rem);
-  margin-inline: auto;
-}
-
-.header {
-  max-width: 40rem;
-  margin-bottom: 2.75rem;
-}
-
-.headline {
-  margin: 0 0 0.85rem;
-  font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-}
-
-.lead {
-  margin: 0 0 1.25rem;
-  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-  line-height: 1.5;
-  color: var(--muted-foreground);
-}
-
-.body {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-}
-
-.body p {
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.65;
-  color: var(--muted-foreground);
-  max-width: 38rem;
-}
-
-.gallery {
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  grid-template-rows: auto auto;
-  gap: 0.75rem;
-  margin-bottom: 3.5rem;
-}
-
-.galleryItem {
-  position: relative;
-  overflow: hidden;
-  background: var(--muted);
-  min-height: 12rem;
-}
-
-.galleryItem:first-child {
-  grid-row: 1 / span 2;
-  min-height: 22rem;
-}
-
-.galleryImg {
-  object-fit: cover;
-  filter: grayscale(1);
-  transition: filter 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.galleryItem:hover .galleryImg {
-  filter: grayscale(0.35);
-  transform: scale(1.03);
-}
-
-.galleryCaption {
+.index {
   position: absolute;
-  left: 0.85rem;
-  bottom: 0.75rem;
+  top: 6vh;
+  left: 1.25rem;
+  z-index: 0;
   margin: 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #fff;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+  font-size: clamp(5.5rem, 18vw, 14rem);
+  font-weight: 700;
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--foreground);
+  opacity: 0;
   pointer-events: none;
-}
-
-@media (max-width: 720px) {
-  .gallery {
-    grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
-
-  .galleryItem:first-child {
-    grid-row: auto;
-    min-height: 16rem;
-  }
-}
-
-.block {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid var(--border);
-}
-
-.blockTitle {
-  margin: 0 0 1.35rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted-foreground);
-}
-
-.skills {
-  display: grid;
-  gap: 1.75rem;
-}
-
-@media (min-width: 768px) {
-  .skills {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 2rem;
-  }
-}
-
-.skillGroupLabel {
-  margin: 0 0 0.65rem;
-  font-size: 1rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.skillList {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.skillList li {
-  font-size: 0.95rem;
-  color: var(--muted-foreground);
-  line-height: 1.45;
-}
-
-.hobbies {
-  display: grid;
-  gap: 1.25rem;
+  user-select: none;
 }
 
 @media (min-width: 640px) {
-  .hobbies {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .index {
+    left: 2rem;
   }
 }
 
-@media (min-width: 1024px) {
-  .hobbies {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1.5rem;
+@media (min-width: 1100px) {
+  .index {
+    left: 3.5rem;
+    top: 4vh;
   }
 }
 
-.hobby {
+.chapterInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2.75rem;
+  align-items: center;
+  width: min(100%, 88rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 960px) {
+  .chapterInner {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.15fr);
+    gap: clamp(2rem, 4vw, 5rem);
+  }
+
+  .layoutMirror .chapterInner {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.95fr);
+  }
+
+  .layoutMirror .chapterCopy {
+    order: 2;
+  }
+
+  .layoutMirror .chapterMedia {
+    order: 1;
+  }
+
+  .layoutHero .chapterInner {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.3fr);
+  }
+
+  .layoutCascade .chapterInner {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+  }
+}
+
+.chapterCopy {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  min-width: 0;
+  align-items: flex-start;
+  gap: 1.25rem;
+  max-width: 38rem;
 }
 
-.hobbyMedia {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: var(--muted);
-}
-
-.hobbyImg {
-  object-fit: cover;
-  filter: grayscale(1);
-  transition: filter 0.45s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hobby:hover .hobbyImg {
-  filter: grayscale(0.3);
-  transform: scale(1.04);
-}
-
-.hobbyTitle {
+.chapterLabel {
   margin: 0;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
-.hobbyNote {
-  margin: 0.2rem 0 0;
-  font-size: 0.875rem;
-  line-height: 1.45;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--muted-foreground);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .galleryImg,
-  .hobbyImg {
-    transition: none;
+.split {
+  margin: 0;
+  opacity: 0;
+  font-size: clamp(1.85rem, 4.6vw, 3.5rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  color: var(--foreground);
+  will-change: transform;
+}
+
+.split * {
+  will-change: transform;
+}
+
+:global(.about-line) {
+  overflow: hidden;
+}
+
+/* ——— Media compositions ——— */
+
+.chapterMedia {
+  position: relative;
+  width: 100%;
+  min-height: 22rem;
+}
+
+@media (min-width: 960px) {
+  .chapterMedia {
+    min-height: min(72vh, 42rem);
+  }
+}
+
+.chapterFrame {
+  position: absolute;
+  overflow: hidden;
+  background: #e8e8e8;
+}
+
+.chapterImg {
+  object-fit: cover;
+  will-change: transform;
+  filter: grayscale(0.55);
+  transition: filter 0.45s ease;
+}
+
+.chapterFrame:hover .chapterImg {
+  filter: grayscale(0.15);
+}
+
+/* Duo — two tall frames, primary dominates */
+.layoutDuo .frame1 {
+  inset: 0 32% 0 0;
+}
+
+.layoutDuo .frame2 {
+  top: 18%;
+  right: 0;
+  bottom: 0;
+  left: 52%;
+}
+
+/* Mirror — wider lead frame on the left */
+.layoutMirror .frame1 {
+  inset: 0 0 0 0;
+  width: 68%;
+}
+
+.layoutMirror .frame2 {
+  top: auto;
+  right: 0;
+  bottom: 8%;
+  left: auto;
+  width: 42%;
+  aspect-ratio: 3 / 4;
+  height: 58%;
+}
+
+/* Hero — almost full-bleed with a floating inset */
+.layoutHero .frame1 {
+  inset: 0;
+}
+
+.layoutHero .frame2 {
+  top: auto;
+  right: 6%;
+  bottom: 8%;
+  left: auto;
+  width: min(42%, 14rem);
+  aspect-ratio: 1;
+  height: auto;
+  box-shadow: 0 18px 50px color-mix(in srgb, #000 18%, transparent);
+}
+
+/* Cascade — three overlapping frames */
+.layoutCascade .chapterMedia {
+  min-height: 26rem;
+}
+
+@media (min-width: 960px) {
+  .layoutCascade .chapterMedia {
+    min-height: min(78vh, 46rem);
+  }
+}
+
+.layoutCascade .frame1 {
+  top: 0;
+  left: 0;
+  width: 58%;
+  height: 72%;
+}
+
+.layoutCascade .frame2 {
+  top: 22%;
+  right: 0;
+  left: auto;
+  width: 48%;
+  height: 58%;
+}
+
+.layoutCascade .frame3 {
+  top: auto;
+  bottom: 0;
+  left: 28%;
+  width: 38%;
+  height: 42%;
+}
+
+@media (max-width: 959px) {
+  .chapterMedia {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 0.65rem;
+    align-items: end;
+    min-height: 0;
   }
 
-  .galleryItem:hover .galleryImg,
-  .hobby:hover .hobbyImg {
-    transform: none;
+  .chapterFrame {
+    position: relative;
+    inset: auto !important;
+    width: auto !important;
+    height: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+  }
+
+  .layoutDuo .frame1,
+  .layoutMirror .frame1,
+  .layoutHero .frame1,
+  .layoutCascade .frame1 {
+    aspect-ratio: 3 / 4;
+  }
+
+  .layoutDuo .frame2,
+  .layoutMirror .frame2,
+  .layoutHero .frame2,
+  .layoutCascade .frame2 {
+    aspect-ratio: 3 / 4;
+    margin-bottom: 10%;
+  }
+
+  .layoutCascade .frame3 {
+    display: none;
+  }
+
+  .layoutHero .frame2 {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chapterImg {
+    transition: none;
   }
 }

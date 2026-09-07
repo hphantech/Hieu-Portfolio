@@ -1,15 +1,22 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { moreProjects } from "@/content/projects";
 import { cn } from "@/lib/utils";
 
 import styles from "./work-carousel.module.css";
+
+gsap.registerPlugin(useGSAP);
+
+/** Elastic enter + smooth easeReverse exit (matches GSAP easeReverse UI demo). */
+const HOVER_EXIT_TIMESCALE = 2.5;
 
 /**
  * 3D cover-flow carousel for additional work — wide landscape frames
@@ -26,6 +33,49 @@ export function WorkCarousel() {
   );
   const prefersReducedMotion = useReducedMotion();
   const isCta = activeIndex === ctaIndex;
+  const browseBtnRef = useRef<HTMLAnchorElement>(null);
+
+  useGSAP(
+    (_context, contextSafe) => {
+      const btn = browseBtnRef.current;
+      if (!btn || !contextSafe) return;
+
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (reduceMotion) return;
+
+      const isTouch =
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        window.matchMedia("(pointer: coarse)").matches;
+      if (isTouch) return;
+
+      const tl = gsap.timeline({ paused: true }).to(btn, {
+        scale: 1.35,
+        duration: 1.2,
+        ease: "elastic.out(1.2, 0.3)",
+        easeReverse: "power2.out",
+      });
+
+      const onEnter = contextSafe(() => {
+        tl.timeScale(1).play();
+      });
+      const onLeave = contextSafe(() => {
+        tl.timeScale(HOVER_EXIT_TIMESCALE).reverse();
+      });
+
+      btn.addEventListener("mouseenter", onEnter);
+      btn.addEventListener("mouseleave", onLeave);
+
+      return () => {
+        btn.removeEventListener("mouseenter", onEnter);
+        btn.removeEventListener("mouseleave", onLeave);
+        tl.kill();
+      };
+    },
+    { scope: browseBtnRef },
+  );
 
   if (slides.length === 0) return null;
 
@@ -150,7 +200,11 @@ export function WorkCarousel() {
                 <p className={styles.ctaCopy}>
                   The full archive has every project in one place.
                 </p>
-                <Link href="/work" className={styles.ctaButton}>
+                <Link
+                  ref={browseBtnRef}
+                  href="/work"
+                  className={styles.ctaButton}
+                >
                   Browse all projects
                   <ArrowRight aria-hidden="true" className="size-4" />
                 </Link>

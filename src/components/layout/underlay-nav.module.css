@@ -1,15 +1,14 @@
 /*
  * Decorative "notch" corners that frame the edge where the sliding main
- * content meets the underlay menu. Kept out of Tailwind because the
- * multi-stop radial-gradient syntax with CSS custom properties is far more
- * readable as plain CSS than as an arbitrary-value utility class.
+ * content meets the underlay menu. Fill matches the black menu stage so
+ * top/bottom bars don't flash white when the panel opens.
  */
 .corner {
   transform-origin: 100% 0;
   background-image: radial-gradient(
     circle farthest-side at 0 100%,
     transparent 99%,
-    var(--surface) 100%
+    #000000 100%
   );
 }
 
@@ -18,6 +17,6 @@
   background-image: radial-gradient(
     circle farthest-side at 0 0,
     transparent 99%,
-    var(--surface) 100%
+    #000000 100%
   );
 }
