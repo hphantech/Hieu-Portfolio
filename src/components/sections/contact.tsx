@@ -13,11 +13,11 @@ export function Contact() {
     <section
       id="contact"
       aria-label="Contact"
-      className="w-full py-12 sm:py-16"
+      className="w-full px-4 py-12 sm:px-6 sm:py-16"
     >
       <GithubGlassCard>
         <Reveal>
-          <div className="flex max-w-xl flex-col gap-4 sm:max-w-2xl sm:gap-5">
+          <div className="flex max-w-md flex-col gap-4 sm:max-w-lg sm:gap-5">
             <div className="space-y-2">
               <h2 className="text-foreground text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
                 Let&apos;s build something.

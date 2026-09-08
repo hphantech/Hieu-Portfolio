@@ -1,8 +1,10 @@
 .stage {
   position: relative;
   width: 100%;
-  min-height: min(70vh, 40rem);
+  max-width: 58rem;
+  min-height: min(52vh, 30rem);
   height: auto;
+  margin-inline: auto;
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -17,8 +19,9 @@
 .aside {
   position: relative;
   z-index: 2;
-  width: min(42rem, calc(100% - 28rem));
-  max-width: none;
+  flex: 0 1 auto;
+  width: min(26rem, calc(100% - 22rem));
+  max-width: 26rem;
   padding-block: 1rem;
   padding-inline: 1.5rem;
   pointer-events: auto;
@@ -26,24 +29,27 @@
 
 @media (min-width: 640px) {
   .aside {
-    padding-inline: 2rem;
+    padding-inline: 1.75rem 1rem;
   }
 }
 
 @media (min-width: 1024px) {
   .aside {
-    width: min(48rem, calc(100% - 30rem));
-    padding-inline: 3rem;
+    width: min(28rem, calc(100% - 22rem));
+    max-width: 28rem;
+    padding-inline: 2rem 1rem;
   }
 }
 
 @media (max-width: 900px) {
   .aside {
     width: 100%;
+    max-width: none;
     padding-block-end: 22rem;
   }
 
   .stage {
+    max-width: none;
     min-height: min(85vh, 48rem);
     align-items: flex-start;
   }
@@ -65,7 +71,7 @@
   --scale-factor: 1;
 
   position: absolute;
-  right: 1.5rem;
+  right: 1rem;
   top: 50%;
   translate: 0 -50%;
   display: flex;

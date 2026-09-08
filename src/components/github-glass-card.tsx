@@ -11,6 +11,8 @@ const SCALE_STEP = 0.1;
 const MAX_SCALE = 1.6;
 const MIN_SCALE = 0.75;
 const STAGE_PAD = 24;
+/** Gap between the copy column and the default card position. */
+const ASIDE_GAP = 20;
 
 type GithubStats = {
   publicRepos: number;
@@ -78,10 +80,18 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     cluster.style.margin = "0";
     cluster.style.right = "auto";
     cluster.style.translate = "none";
-    const left = Math.max(
+
+    const aside = stage.querySelector(`.${styles.aside}`) as HTMLElement | null;
+    const maxLeft = Math.max(
       STAGE_PAD,
       stage.clientWidth - cluster.offsetWidth - STAGE_PAD,
     );
+    // Sit beside the copy on wide layouts; fall back to the stage edge on narrow.
+    const besideAside =
+      aside && stage.clientWidth > 900
+        ? aside.offsetLeft + aside.offsetWidth + ASIDE_GAP
+        : maxLeft;
+    const left = Math.min(Math.max(STAGE_PAD, besideAside), maxLeft);
     const top = Math.max(
       STAGE_PAD,
       (stage.clientHeight - cluster.offsetHeight) / 2,
