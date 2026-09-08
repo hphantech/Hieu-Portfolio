@@ -117,7 +117,7 @@ body:has(.header.isLoading) {
   height: 100%;
 }
 
-/* Single hero image fills the expanding stage — contain keeps the full desk scene. */
+/* Keep the full hero artwork visible — no crop letterboxing tradeoff. */
 .heroImage {
   display: block;
   width: 100%;

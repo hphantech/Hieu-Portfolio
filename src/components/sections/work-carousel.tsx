@@ -1,81 +1,45 @@
 "use client";
 
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
+import { ProjectModal } from "@/components/work/project-modal";
+import { useLenisInstance } from "@/components/motion/lenis-provider";
 import { moreProjects } from "@/content/projects";
+import type { Project } from "@/types/content";
 import { cn } from "@/lib/utils";
 
 import styles from "./work-carousel.module.css";
 
-gsap.registerPlugin(useGSAP);
-
-/** Elastic enter + smooth easeReverse exit (matches GSAP easeReverse UI demo). */
-const HOVER_EXIT_TIMESCALE = 2.5;
-
 /**
  * 3D cover-flow carousel for additional work — wide landscape frames
- * suited to website page screenshots. Past the last slide: a subtle
- * “want to see more?” CTA that links to the full archive.
+ * suited to website page screenshots.
  */
 export function WorkCarousel() {
   const slides = moreProjects.filter((p) => p.cover);
-  const ctaIndex = slides.length;
-  const total = slides.length + 1;
+  const total = slides.length;
 
-  const [activeIndex, setActiveIndex] = useState(
-    Math.min(2, Math.max(0, slides.length - 1)),
-  );
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [selected, setSelected] = useState<Project | null>(null);
   const prefersReducedMotion = useReducedMotion();
-  const isCta = activeIndex === ctaIndex;
-  const browseBtnRef = useRef<HTMLAnchorElement>(null);
+  const lenis = useLenisInstance();
 
-  useGSAP(
-    (_context, contextSafe) => {
-      const btn = browseBtnRef.current;
-      if (!btn || !contextSafe) return;
-
-      const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
-      if (reduceMotion) return;
-
-      const isTouch =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.matchMedia("(pointer: coarse)").matches;
-      if (isTouch) return;
-
-      const tl = gsap.timeline({ paused: true }).to(btn, {
-        scale: 1.35,
-        duration: 1.2,
-        ease: "elastic.out(1.2, 0.3)",
-        easeReverse: "power2.out",
-      });
-
-      const onEnter = contextSafe(() => {
-        tl.timeScale(1).play();
-      });
-      const onLeave = contextSafe(() => {
-        tl.timeScale(HOVER_EXIT_TIMESCALE).reverse();
-      });
-
-      btn.addEventListener("mouseenter", onEnter);
-      btn.addEventListener("mouseleave", onLeave);
-
-      return () => {
-        btn.removeEventListener("mouseenter", onEnter);
-        btn.removeEventListener("mouseleave", onLeave);
-        tl.kill();
-      };
-    },
-    { scope: browseBtnRef },
-  );
+  useEffect(() => {
+    if (!lenis) return;
+    if (selected) {
+      lenis.stop();
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      lenis.start();
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      lenis.start();
+      document.documentElement.style.overflow = "";
+    };
+  }, [selected, lenis]);
 
   if (slides.length === 0) return null;
 
@@ -89,11 +53,7 @@ export function WorkCarousel() {
   const toSlide = (index: number) => setActiveIndex(index);
 
   return (
-    <section
-      id="work"
-      aria-label="Projects"
-      className={styles.section}
-    >
+    <section id="work" aria-label="Projects" className={styles.section}>
       <div className={styles.stage}>
         <div className={styles.viewport}>
           <motion.div
@@ -121,39 +81,28 @@ export function WorkCarousel() {
                         : { type: "spring", bounce: 0.08, duration: 1 }
                     }
                   >
-                    {isActive ? (
-                      <Link
-                        href={`/work/${project.slug}`}
-                        className={styles.frame}
-                        aria-label={`Open case study: ${project.title}`}
-                      >
-                        <Image
-                          src={project.cover!}
-                          alt={`Screenshot of ${project.title}`}
-                          width={1280}
-                          height={800}
-                          className={styles.image}
-                          sizes="(max-width: 768px) 85vw, 36rem"
-                          priority
-                        />
-                      </Link>
-                    ) : (
-                      <button
-                        type="button"
-                        className={styles.frame}
-                        onClick={() => toSlide(i)}
-                        aria-label={`Show ${project.title}`}
-                      >
-                        <Image
-                          src={project.cover!}
-                          alt={`Screenshot of ${project.title}`}
-                          width={1280}
-                          height={800}
-                          className={styles.image}
-                          sizes="(max-width: 768px) 85vw, 36rem"
-                        />
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      className={styles.frame}
+                      onClick={() =>
+                        isActive ? setSelected(project) : toSlide(i)
+                      }
+                      aria-label={
+                        isActive
+                          ? `Open details: ${project.title}`
+                          : `Show ${project.title}`
+                      }
+                    >
+                      <Image
+                        src={project.cover!}
+                        alt={`Screenshot of ${project.title}`}
+                        width={1280}
+                        height={800}
+                        className={styles.image}
+                        sizes="(max-width: 768px) 85vw, 36rem"
+                        priority={isActive}
+                      />
+                    </button>
 
                     <motion.div
                       className={styles.caption}
@@ -179,37 +128,6 @@ export function WorkCarousel() {
                 </div>
               );
             })}
-
-            <div className={styles.slide}>
-              <motion.div
-                className={styles.ctaCard}
-                animate={{
-                  rotateY: prefersReducedMotion
-                    ? 0
-                    : (activeIndex - ctaIndex) * 42,
-                  scale: isCta ? 1 : 0.88,
-                  opacity: isCta ? 1 : 0.45,
-                }}
-                transition={
-                  prefersReducedMotion
-                    ? { duration: 0 }
-                    : { type: "spring", bounce: 0.08, duration: 1 }
-                }
-              >
-                <p className={styles.ctaEyebrow}>Want to see more?</p>
-                <p className={styles.ctaCopy}>
-                  The full archive has every project in one place.
-                </p>
-                <Link
-                  ref={browseBtnRef}
-                  href="/work"
-                  className={styles.ctaButton}
-                >
-                  Browse all projects
-                  <ArrowRight aria-hidden="true" className="size-4" />
-                </Link>
-              </motion.div>
-            </div>
           </motion.div>
         </div>
 
@@ -243,23 +161,12 @@ export function WorkCarousel() {
                 )}
               />
             ))}
-            <button
-              type="button"
-              role="tab"
-              aria-selected={isCta}
-              aria-label="See more projects"
-              onClick={() => toSlide(ctaIndex)}
-              className={cn(
-                styles.dot,
-                isCta ? styles.dotActive : styles.dotIdle,
-              )}
-            />
           </div>
 
           <button
             type="button"
             onClick={toNext}
-            disabled={isCta}
+            disabled={activeIndex === total - 1}
             aria-label="Next project"
             className={styles.controlBtn}
           >
@@ -267,6 +174,8 @@ export function WorkCarousel() {
           </button>
         </div>
       </div>
+
+      <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </section>
   );
 }

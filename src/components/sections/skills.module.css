@@ -1,0 +1,100 @@
+.section {
+  width: 100%;
+  padding: 5rem 1.5rem 6rem;
+  box-sizing: border-box;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section {
+    padding-inline: 3rem;
+    padding-block: 6rem 7rem;
+  }
+}
+
+.inner {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.header {
+  max-width: 36rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.headline {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.lead {
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.5;
+  color: var(--muted-foreground);
+}
+
+.grid {
+  display: grid;
+  gap: 2.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem 3rem;
+  }
+}
+
+.group {
+  min-width: 0;
+}
+
+.groupLabel {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.item {
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--foreground);
+}

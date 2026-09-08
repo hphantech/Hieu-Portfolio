@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
-import { CaseStudy } from "@/components/work/case-study";
 import { getProjectBySlug, projects } from "@/content/projects";
 import { site } from "@/content/site";
 
@@ -36,6 +35,7 @@ export async function generateMetadata({
   };
 }
 
+/** Deep links land on the work carousel — details open as popups there. */
 export default async function WorkPage({
   params,
 }: {
@@ -45,12 +45,8 @@ export default async function WorkPage({
   const project = getProjectBySlug(slug);
 
   if (!project) {
-    notFound();
+    redirect("/#work");
   }
 
-  return (
-    <main id="main-content" className="flex-1">
-      <CaseStudy project={project} />
-    </main>
-  );
+  redirect("/#work");
 }

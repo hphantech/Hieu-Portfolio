@@ -105,8 +105,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem;
-  max-width: 38rem;
+  gap: 1rem;
+  max-width: 40rem;
+  z-index: 2;
 }
 
 .chapterLabel {
@@ -121,16 +122,34 @@
 .split {
   margin: 0;
   opacity: 0;
-  font-size: clamp(1.85rem, 4.6vw, 3.5rem);
+  font-size: clamp(1.65rem, 3.8vw, 2.75rem);
   font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: -0.04em;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   color: var(--foreground);
   will-change: transform;
 }
 
 .split * {
   will-change: transform;
+}
+
+.chapterBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0;
+  max-width: 36rem;
+  opacity: 0;
+}
+
+.chapterBody p {
+  margin: 0;
+  font-size: clamp(0.98rem, 1.5vw, 1.12rem);
+  font-weight: 450;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--foreground) 88%, transparent);
 }
 
 :global(.about-line) {
@@ -154,18 +173,12 @@
 .chapterFrame {
   position: absolute;
   overflow: hidden;
-  background: #e8e8e8;
+  background: transparent;
 }
 
 .chapterImg {
   object-fit: cover;
   will-change: transform;
-  filter: grayscale(0.55);
-  transition: filter 0.45s ease;
-}
-
-.chapterFrame:hover .chapterImg {
-  filter: grayscale(0.15);
 }
 
 /* Duo — two tall frames, primary dominates */

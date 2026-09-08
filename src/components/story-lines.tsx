@@ -4,16 +4,31 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
+import Image from "next/image";
 import { useRef } from "react";
 
+import type { StoryBeat, StoryLayout } from "@/content/story";
 import { cn } from "@/lib/utils";
 
 import styles from "./story-lines.module.css";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
+function toBeats(lines: readonly string[] | readonly StoryBeat[]): StoryBeat[] {
+  return lines.map((line) =>
+    typeof line === "string" ? { text: line } : line,
+  );
+}
+
+const layoutClass: Record<StoryLayout, string> = {
+  mediaRight: styles.layoutMediaRight,
+  mediaLeft: styles.layoutMediaLeft,
+  mediaWide: styles.layoutMediaWide,
+  mediaFloat: styles.layoutMediaFloat,
+};
+
 type StoryLinesProps = {
-  lines: readonly string[];
+  lines: readonly string[] | readonly StoryBeat[];
   /** Accessible heading announced to screen readers. */
   label: string;
   id?: string;
@@ -27,6 +42,7 @@ type StoryLinesProps = {
 
 /**
  * Scroll-scrubbed SplitText line reveals for storytelling copy.
+ * Beats may include images with varied layouts per sentence.
  */
 export function StoryLines({
   lines,
@@ -37,6 +53,7 @@ export function StoryLines({
 }: StoryLinesProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingId = id ? `${id}-heading` : undefined;
+  const beats = toBeats(lines);
 
   useGSAP(
     () => {
@@ -68,12 +85,25 @@ export function StoryLines({
 
         if (prefersReducedMotion) {
           gsap.set(texts, { autoAlpha: 1 });
+          gsap.set(section.querySelectorAll(`.${styles.mediaFrame}`), {
+            autoAlpha: 1,
+            y: 0,
+            x: 0,
+          });
           return;
         }
 
         containers.forEach((container) => {
           const text = container.querySelector<HTMLElement>(`.${styles.split}`);
+          const frames = gsap.utils.toArray<HTMLElement>(
+            container.querySelectorAll(`.${styles.mediaFrame}`),
+          );
           if (!text) return;
+
+          const fromLeft = container.classList.contains(styles.layoutMediaLeft);
+          const fromBelow = container.classList.contains(
+            styles.layoutMediaFloat,
+          );
 
           const split = SplitText.create(text, {
             type: "words,lines",
@@ -82,20 +112,54 @@ export function StoryLines({
             autoSplit: true,
             onSplit: (self) => {
               gsap.set(self.lines, { yPercent: 100 });
-              return gsap.to(self.lines, {
-                yPercent: 0,
-                stagger: 0.16,
-                ease: "power1.out",
-                immediateRender: false,
+              if (frames.length) {
+                gsap.set(frames, {
+                  autoAlpha: 0,
+                  y: fromBelow ? 72 : fromLeft ? 24 : 48,
+                  x: fromLeft ? -48 : fromBelow ? 0 : 36,
+                });
+              }
+
+              const tl = gsap.timeline({
+                defaults: { ease: "power1.out" },
                 scrollTrigger: {
-                  trigger: text,
-                  // Number = lag (seconds) — smoothes the scrub catch-up.
-                  scrub: 1.4,
-                  start: "clamp(top 92%)",
-                  end: "clamp(center 42%)",
+                  trigger: container,
+                  scrub: 1.2,
+                  start: "clamp(top 90%)",
+                  end: "clamp(center 40%)",
                   invalidateOnRefresh: true,
                 },
               });
+
+              // Media-left: images lead, then copy. Otherwise copy leads.
+              const textAt = fromLeft ? 0.14 : 0;
+              const mediaAt = fromLeft ? 0 : 0.1;
+
+              tl.to(
+                self.lines,
+                {
+                  yPercent: 0,
+                  stagger: 0.14,
+                  immediateRender: false,
+                },
+                textAt,
+              );
+
+              if (frames.length) {
+                tl.to(
+                  frames,
+                  {
+                    autoAlpha: 1,
+                    y: 0,
+                    x: 0,
+                    stagger: fromLeft ? 0.14 : 0.1,
+                    immediateRender: false,
+                  },
+                  mediaAt,
+                );
+              }
+
+              return tl;
             },
           });
 
@@ -107,6 +171,9 @@ export function StoryLines({
       };
 
       gsap.set(texts, { autoAlpha: 0 });
+      gsap.set(section.querySelectorAll(`.${styles.mediaFrame}`), {
+        autoAlpha: 0,
+      });
 
       void document.fonts.ready.then(() => {
         if (!alive) return;
@@ -147,11 +214,76 @@ export function StoryLines({
         <div className={styles.spacer} aria-hidden="true" />
       ) : null}
 
-      {lines.map((line) => (
-        <div key={line} className={styles.container}>
-          <p className={styles.split}>{line}</p>
-        </div>
-      ))}
+      {beats.map((beat) => {
+        const mediaCount =
+          (beat.video ? 1 : 0) + (beat.images?.length ?? 0);
+        const hasMedia = mediaCount > 0;
+        const layout = beat.layout ?? "mediaRight";
+        let frameIndex = 0;
+
+        return (
+          <div
+            key={beat.text}
+            className={cn(
+              styles.container,
+              hasMedia && styles.containerWithMedia,
+              hasMedia && layoutClass[layout],
+            )}
+          >
+            <div className={styles.copy}>
+              <p className={styles.split}>{beat.text}</p>
+            </div>
+
+            {hasMedia ? (
+              <div
+                className={cn(
+                  styles.media,
+                  mediaCount >= 3 ? styles.mediaTrio : styles.mediaDuo,
+                )}
+              >
+                {beat.video ? (
+                  <div
+                    className={cn(
+                      styles.mediaFrame,
+                      styles[`mediaFrame${++frameIndex}` as keyof typeof styles],
+                    )}
+                  >
+                    <video
+                      className={styles.mediaVideo}
+                      src={beat.video.src}
+                      aria-label={beat.video.label}
+                      muted
+                      loop
+                      playsInline
+                      autoPlay
+                      preload="metadata"
+                    />
+                  </div>
+                ) : null}
+                {beat.images?.map((image) => (
+                  <div
+                    key={image.src}
+                    className={cn(
+                      styles.mediaFrame,
+                      styles[
+                        `mediaFrame${++frameIndex}` as keyof typeof styles
+                      ],
+                    )}
+                  >
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      className={styles.mediaImg}
+                      sizes="(max-width: 900px) 90vw, 42vw"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </div>
+        );
+      })}
 
       {density === "chapter" ? (
         <div className={styles.spacer} aria-hidden="true" />

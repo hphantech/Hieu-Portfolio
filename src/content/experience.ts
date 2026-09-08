@@ -1,3 +1,15 @@
+export type ExperienceVideo = {
+  src: string;
+  label: string;
+  /** CSS aspect-ratio value, e.g. "9 / 16" — keeps frames flush with no letterbox. */
+  aspectRatio?: string;
+};
+
+export type ExperienceImage = {
+  src: string;
+  alt: string;
+};
+
 export type ExperienceItem = {
   id: string;
   org: string;
@@ -6,6 +18,10 @@ export type ExperienceItem = {
   summary: string;
   highlights: string[];
   tags: string[];
+  /** Optional app / product clips shown on the card. */
+  videos?: readonly ExperienceVideo[];
+  /** Optional project stills / screenshots shown on the card. */
+  images?: readonly ExperienceImage[];
 };
 
 /**
@@ -14,45 +30,77 @@ export type ExperienceItem = {
  */
 export const experiences: ExperienceItem[] = [
   {
-    id: "internship-frontend",
-    org: "Studio placeholder",
-    role: "Frontend Intern",
-    period: "2025 — 2026",
+    id: "yulin-studios",
+    org: "Yulin Studios",
+    role: "Software Engineer · Founder",
+    period: "2024 — Present",
     summary:
-      "Shipped accessible UI in React and Next.js — components, motion polish, and tight design collaboration.",
+      "Started my own studio to build websites and webshops for businesses and strengthen their online presence — still active with partners like Chayue Tea and more clients underway.",
     highlights: [
-      "Built reusable interface pieces with TypeScript",
-      "Improved a11y across key flows",
-      "Paired with design on kinetic details",
+      "Lead software engineering across client sites and shops",
+      "Small core team: InfoSec (brother-in-law), BIM (partner), plus freelance engineering when projects scale",
+      "Ongoing client work that grows each business’s online footprint",
     ],
-    tags: ["React", "Next.js", "TypeScript", "A11y"],
+    tags: ["Websites", "Webshops", "Clients", "Team"],
+    images: [
+      {
+        src: "/images/experience/chayue-landing.jpg",
+        alt: "Chayue Tea landing page by Yulin Studios",
+      },
+      {
+        src: "/images/experience/yulin-selected-work.png",
+        alt: "Yulin Studios selected live client sites",
+      },
+      {
+        src: "/images/experience/phelise-wireframes.png",
+        alt: "PHÉLISE web wireframes in progress",
+      },
+    ],
   },
   {
-    id: "comaker",
-    org: "Co-Maker project",
-    role: "Frontend Developer",
+    id: "cyberaventura",
+    org: "Cyberaventura",
+    role: "Mobile App Developer",
+    period: "2025",
+    summary:
+      "Built the mobile app version of Cyberaventura’s existing website — a Duolingo-style experience that teaches cybersecurity through games and short lessons.",
+    highlights: [
+      "Translated the web product into a mobile-first app flow",
+      "Kept learning loops short, clear, and game-like",
+      "Matched the brand while shaping screens for phone use",
+    ],
+    tags: ["Mobile", "UI", "Gamification", "Product"],
+    videos: [
+      {
+        src: "/videos/cyberaventura-1.mp4",
+        label: "Cyberaventura mobile app walkthrough",
+        aspectRatio: "384 / 848",
+      },
+      {
+        src: "/videos/cyberaventura-2.mp4",
+        label: "Cyberaventura gamified cybersecurity lessons",
+        aspectRatio: "768 / 480",
+      },
+    ],
+  },
+  {
+    id: "squareaim",
+    org: "SquareAim",
+    role: "Co-Maker · Frontend",
     period: "2024 — 2025",
     summary:
-      "Partnered with classmates and stakeholders to turn a brief into a working product — from wireframes to deploy.",
+      "Co-Maker project for a football planner app — match with people nearby who want to play, like Tinder but for pickup football games.",
     highlights: [
-      "Owned the frontend architecture",
-      "Integrated APIs and loading states",
-      "Presented demos to mentors and peers",
+      "Helped shape flows for finding and joining random matches",
+      "Built frontend pieces around profiles, availability, and meetups",
+      "Worked with the team to turn the “football Tinder” idea into a usable product",
     ],
-    tags: ["Teamwork", "Next.js", "Tailwind", "Git"],
-  },
-  {
-    id: "campus-collab",
-    org: "Campus / community",
-    role: "Volunteer & collaborator",
-    period: "2023 — 2024",
-    summary:
-      "Helped student and community initiatives with landing pages, event sites, and quick experiments.",
-    highlights: [
-      "Fast turnarounds under real deadlines",
-      "Clear handoff docs for non-devs",
-      "Learned to scope ruthlessly",
+    tags: ["Co-Maker", "Mobile", "Matching", "Football"],
+    images: [
+      {
+        src: "/images/experience/squareaim-logo.png",
+        alt: "SquareAim football planner app logo",
+      },
     ],
-    tags: ["HTML", "CSS", "JavaScript", "Vercel"],
   },
 ];

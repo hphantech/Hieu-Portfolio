@@ -17,16 +17,70 @@ const SIZE = 45;
 /**
  * Lusion-style sound button: soft grey disc + thick black sine-wave stroke.
  * Wave amplitude animates while unmuted.
+ * Tries to autoplay on enter; unlocks on first gesture if the browser blocks it.
  */
 export function MuteButton({ src, className }: MuteButtonProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const mutedRef = useRef(true);
+  const autoplayPendingRef = useRef(Boolean(src));
   const phaseRef = useRef(0);
   const ampRef = useRef(0.22);
   const ampTargetRef = useRef(0.22);
   const rafRef = useRef(0);
   const [isMuted, setIsMuted] = useState(true);
+
+  useEffect(() => {
+    if (!src) return;
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.volume = 0.45;
+    autoplayPendingRef.current = true;
+
+    const unlockEvents = ["pointerdown", "keydown", "touchstart"] as const;
+
+    const start = async () => {
+      try {
+        await audio.play();
+        mutedRef.current = false;
+        autoplayPendingRef.current = false;
+        setIsMuted(false);
+        for (const event of unlockEvents) {
+          window.removeEventListener(event, onGesture);
+        }
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    const onGesture = () => {
+      if (!autoplayPendingRef.current || !mutedRef.current) return;
+      void start();
+    };
+
+    void start().then((ok) => {
+      if (ok) return;
+      for (const event of unlockEvents) {
+        window.addEventListener(event, onGesture, { passive: true });
+      }
+    });
+
+    const onHeroReady = () => {
+      if (autoplayPendingRef.current && mutedRef.current) {
+        void start();
+      }
+    };
+    window.addEventListener("portfolio:hero-ready", onHeroReady);
+
+    return () => {
+      for (const event of unlockEvents) {
+        window.removeEventListener(event, onGesture);
+      }
+      window.removeEventListener("portfolio:hero-ready", onHeroReady);
+    };
+  }, [src]);
 
   useEffect(() => {
     const onVisibility = () => {
@@ -130,6 +184,7 @@ export function MuteButton({ src, className }: MuteButtonProps) {
   const onClick = async () => {
     const nextMuted = !mutedRef.current;
     mutedRef.current = nextMuted;
+    autoplayPendingRef.current = false;
     setIsMuted(nextMuted);
 
     const audio = audioRef.current;
@@ -151,7 +206,14 @@ export function MuteButton({ src, className }: MuteButtonProps) {
   return (
     <>
       {src ? (
-        <audio ref={audioRef} src={src} loop preload="auto" />
+        <audio
+          ref={audioRef}
+          src={src}
+          loop
+          preload="auto"
+          autoPlay
+          playsInline
+        />
       ) : null}
       <button
         id="header-right-sound-btn"

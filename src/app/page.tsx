@@ -3,7 +3,9 @@ import { Contact } from "@/components/sections/contact";
 import { Experience } from "@/components/sections/experience";
 import { Hero } from "@/components/sections/hero";
 import { Intro } from "@/components/sections/intro";
+import { Skills } from "@/components/sections/skills";
 import { WorkCarousel } from "@/components/sections/work-carousel";
+import { ScatterAssemble } from "@/components/scatter-assemble";
 import { SplitWordHeadline } from "@/components/split-word-headline";
 import { StoryLines } from "@/components/story-lines";
 import { story } from "@/content/story";
@@ -13,23 +15,20 @@ export default function Home() {
     <main id="main-content" className="flex-1">
       <Hero />
       <Intro />
-      <SplitWordHeadline>
-        {story.beforeAbout}
-        <sup>↓</sup>
-      </SplitWordHeadline>
-      <About />
-      <StoryLines
-        label="Experience"
-        density="bridge"
-        lines={story.beforeExperience}
-      />
+      <ScatterAssemble text={story.beforeExperience[0]} />
       <Experience />
+      <Skills />
       <StoryLines
         label="More work"
         density="bridge"
         lines={story.beforeMoreWork}
       />
       <WorkCarousel />
+      <SplitWordHeadline>
+        {story.beforeAbout}
+        <sup>↓</sup>
+      </SplitWordHeadline>
+      <About />
       <StoryLines
         label="Get in touch"
         density="bridge"

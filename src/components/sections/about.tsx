@@ -43,6 +43,9 @@ export function About() {
       const texts = gsap.utils.toArray<HTMLElement>(
         section.querySelectorAll(`.${styles.split}`),
       );
+      const bodies = gsap.utils.toArray<HTMLElement>(
+        section.querySelectorAll(`.${styles.chapterBody}`),
+      );
 
       let splits: SplitText[] = [];
       let alive = true;
@@ -58,6 +61,7 @@ export function About() {
 
         if (prefersReducedMotion) {
           gsap.set(texts, { autoAlpha: 1 });
+          gsap.set(bodies, { autoAlpha: 1, y: 0 });
           gsap.set(section.querySelectorAll(`.${styles.chapterFrame}`), {
             autoAlpha: 1,
             y: 0,
@@ -74,6 +78,9 @@ export function About() {
 
         chapters.forEach((chapter) => {
           const text = chapter.querySelector<HTMLElement>(`.${styles.split}`);
+          const body = chapter.querySelector<HTMLElement>(
+            `.${styles.chapterBody}`,
+          );
           const frames = gsap.utils.toArray<HTMLElement>(
             chapter.querySelectorAll(`.${styles.chapterFrame}`),
           );
@@ -96,16 +103,16 @@ export function About() {
               gsap.set(frames, { autoAlpha: 0, y: 64 });
               gsap.set(imgs, { yPercent: 12 });
               if (label) gsap.set(label, { autoAlpha: 0, y: 20 });
+              if (body) gsap.set(body, { autoAlpha: 0, y: 24 });
               if (index) gsap.set(index, { autoAlpha: 0 });
 
               const tl = gsap.timeline({
                 defaults: { ease: "power1.out" },
                 scrollTrigger: {
                   trigger: chapter,
-                  // Number = lag — light catch-up, no pin (avoids Lenis hitching).
                   scrub: 0.85,
-                  start: "clamp(top 88%)",
-                  end: "clamp(center 42%)",
+                  start: "clamp(top 90%)",
+                  end: "clamp(top 35%)",
                   invalidateOnRefresh: true,
                 },
               });
@@ -128,7 +135,7 @@ export function About() {
                   {
                     autoAlpha: 1,
                     y: 0,
-                    duration: 0.4,
+                    duration: 0.35,
                     immediateRender: false,
                   },
                   0,
@@ -139,30 +146,43 @@ export function About() {
                 self.lines,
                 {
                   yPercent: 0,
-                  stagger: 0.1,
+                  stagger: 0.08,
                   immediateRender: false,
                 },
-                0.05,
-              )
-                .to(
-                  frames,
+                0.04,
+              );
+
+              if (body) {
+                tl.to(
+                  body,
                   {
                     autoAlpha: 1,
                     y: 0,
-                    stagger: 0.1,
+                    duration: 0.45,
                     immediateRender: false,
                   },
-                  0.08,
-                )
-                .to(
-                  imgs,
-                  {
-                    yPercent: 0,
-                    stagger: 0.08,
-                    immediateRender: false,
-                  },
-                  0.08,
+                  0.12,
                 );
+              }
+
+              tl.to(
+                frames,
+                {
+                  autoAlpha: 1,
+                  y: 0,
+                  stagger: 0.1,
+                  immediateRender: false,
+                },
+                0.08,
+              ).to(
+                imgs,
+                {
+                  yPercent: 0,
+                  stagger: 0.08,
+                  immediateRender: false,
+                },
+                0.08,
+              );
 
               return tl;
             },
@@ -176,6 +196,7 @@ export function About() {
       };
 
       gsap.set(texts, { autoAlpha: 0 });
+      gsap.set(bodies, { autoAlpha: 0 });
       gsap.set(section.querySelectorAll(`.${styles.chapterFrame}`), {
         autoAlpha: 0,
       });
@@ -223,8 +244,13 @@ export function About() {
             <div className={styles.chapterCopy}>
               <p className={styles.chapterLabel}>{chapter.label}</p>
               <h3 id={`about-${chapter.id}`} className={styles.split}>
-                {chapter.copy}
+                {chapter.headline}
               </h3>
+              <div className={styles.chapterBody}>
+                {chapter.body.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
             </div>
 
             <div className={styles.chapterMedia}>

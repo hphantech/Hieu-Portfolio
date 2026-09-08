@@ -13,70 +13,65 @@ export const about = {
    */
   chapters: [
     {
-      id: "photography",
-      label: "Photography",
+      id: "mochi",
+      label: "Life outside code",
       layout: "duo" as const,
-      copy: "I chase light, texture, and quiet frames — photography trained my eye for composition long before I opened a design tool.",
+      headline: "I have a dog named Mochi.",
+      body: [
+        "She is honestly one of the best parts of my day. After long stretches of building websites, fixing bugs, or sitting in front of a laptop, hanging out with Mochi pulls me straight back into real life.",
+        "We go on walks, she steals the couch, I take way too many photos of her, and somehow that mix of chaos and calm is exactly what I need. I always try to spend time with her — not as a break from work, but because that time matters to me.",
+        "If you know me outside school or projects, you already know: Mochi is family, and she shows up in my life a lot more than any side project ever will.",
+      ],
       images: [
         {
-          src: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80",
-          alt: "Person photographing a landscape",
+          src: "/images/about/mochi-1.jpg",
+          alt: "Mochi sitting on the coffee table at home",
         },
         {
-          src: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
-          alt: "Quiet street at dusk",
+          src: "/images/about/mochi-2.jpg",
+          alt: "Mochi looking at the camera on the bed",
         },
       ],
     },
     {
-      id: "music",
-      label: "Music",
-      layout: "mirror" as const,
-      copy: "Lofi loops and late-night playlists keep me in flow — rhythm and pacing show up in how I time motion on the page.",
-      images: [
-        {
-          src: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1200&q=80",
-          alt: "Music studio equipment",
-        },
-        {
-          src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=900&q=80",
-          alt: "DJ mixer and headphones",
-        },
-      ],
-    },
-    {
-      id: "games",
-      label: "Games",
-      layout: "hero" as const,
-      copy: "Worlds, systems, and interaction design — games taught me how feedback, discovery, and delight keep someone exploring.",
-      images: [
-        {
-          src: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=80",
-          alt: "Controller on a desk",
-        },
-        {
-          src: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80",
-          alt: "Colorful game controllers",
-        },
-      ],
-    },
-    {
-      id: "sketching",
-      label: "Sketching",
+      id: "travel",
+      label: "Travel & hiking",
       layout: "cascade" as const,
-      copy: "Rough ideas before they become UI — sketching keeps me honest about hierarchy, spacing, and what actually needs to exist.",
+      headline: "I like to travel — and I really like hiking.",
+      body: [
+        "Going somewhere new resets how I think. I went to Bangkok for a full semester as an IT minor exchange student, studied there, worked with people from different countries, and got thrown into a completely different rhythm than home.",
+        "That exchange was not just classes. It was food stalls, late nights figuring things out, campus events, and learning how to settle into a city that moves fast.",
+        "When I am not studying or building, I go hiking whenever I can. Mountains, long trails, quiet views — being outside clears my head better than any productivity hack. Travel and hiking are how I recharge, and they keep me curious.",
+      ],
       images: [
         {
-          src: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1000&q=80",
-          alt: "Sketchbook and pencils",
+          src: "/images/about/travel-hike.jpg",
+          alt: "Looking out over a mountain valley while hiking",
         },
         {
-          src: "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=900&q=80",
-          alt: "Hand drawing on paper",
+          src: "/images/about/travel-bangkok.jpg",
+          alt: "KMITL International Day stall in Bangkok",
         },
         {
-          src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=900&q=80",
-          alt: "Laptop with code on a desk",
+          src: "/images/about/travel-shenzhen.jpg",
+          alt: "I Love Shenzhen outdoor sculpture",
+        },
+      ],
+    },
+    {
+      id: "cooking",
+      label: "Cooking",
+      layout: "hero" as const,
+      headline: "I like to cook — and I improvise.",
+      body: [
+        "I do not always follow a strict recipe. Half the fun is opening the fridge, seeing what is there, and turning it into something that actually tastes good.",
+        "Sometimes that means a full plate like chicken rice with broth and sides. Sometimes it is just experimenting until it works. Cooking is my creative reset: taste, adjust, plate it, and enjoy it with people I care about.",
+        "That same improvising mindset shows up in how I build interfaces too — try something, feel if it works, refine it, and ship.",
+      ],
+      images: [
+        {
+          src: "/images/about/cook-1.jpg",
+          alt: "Homemade Hainanese chicken rice plated at home",
         },
       ],
     },
