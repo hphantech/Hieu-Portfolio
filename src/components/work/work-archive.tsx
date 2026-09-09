@@ -29,7 +29,10 @@ export function WorkArchive() {
   }, [selected, lenis]);
 
   return (
-    <main id="main-content" className="mx-auto w-full max-w-3xl flex-1 px-6 py-20">
+    <main
+      id="main-content"
+      className="mx-auto w-full max-w-3xl flex-1 px-6 py-20"
+    >
       <Reveal>
         <Link
           href="/#work"
@@ -50,7 +53,11 @@ export function WorkArchive() {
 
       <ul className="mt-12 divide-y divide-black/10">
         {projects.map((project, index) => (
-          <Reveal as="li" key={project.slug} delay={Math.min(index * 0.04, 0.3)}>
+          <Reveal
+            as="li"
+            key={project.slug}
+            delay={Math.min(index * 0.04, 0.3)}
+          >
             <button
               type="button"
               onClick={() => setSelected(project)}

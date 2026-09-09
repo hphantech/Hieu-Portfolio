@@ -182,7 +182,9 @@ export const projects: Project[] = [
     year: "2025",
     tech: ["Next.js", "TypeScript", "UI", "Concept"],
     cover: "/images/work/hoi-tin-cafe.jpg",
-    links: [{ label: "Live concept", href: "https://hoi-tin-cafe.vercel.app/" }],
+    links: [
+      { label: "Live concept", href: "https://hoi-tin-cafe.vercel.app/" },
+    ],
     body: [
       "Hoi Tin Café needed a site that feels as quiet and intentional as the shop on Zeedijk — matcha, coffee, and Hong Kong–style comfort food.",
       "We built a concept around a full-bleed storefront hero, clear menu and visit paths, and typography that matches the café’s cream-and-serif brand.",
@@ -199,7 +201,10 @@ export const projects: Project[] = [
     tech: ["Next.js", "React", "TypeScript", "UI"],
     cover: "/images/work/old-portfolio.png",
     links: [
-      { label: "Live site", href: "https://portfolio-delta-one-26.vercel.app/" },
+      {
+        label: "Live site",
+        href: "https://portfolio-delta-one-26.vercel.app/",
+      },
     ],
     body: [
       "Before this site, I shipped a darker personal portfolio with a starfield background, a centered intro, and sections for about, skills, and projects.",

@@ -142,11 +142,7 @@ export function SplitWordHeadline({
   );
 
   return (
-    <section
-      ref={sectionRef}
-      id={id}
-      className={cn(styles.section, className)}
-    >
+    <section ref={sectionRef} id={id} className={cn(styles.section, className)}>
       <div className={styles.container}>
         <h2 ref={headingRef} className={styles.headline}>
           {children}

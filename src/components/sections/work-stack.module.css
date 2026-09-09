@@ -342,10 +342,9 @@
   .item {
     animation: card-stack-away linear forwards;
     animation-timeline: --card-stack;
-    animation-range:
-      exit-crossing calc(var(--stack-i, 1) * var(--stack-row) - 100svh)
-      exit-crossing
-        calc(var(--stack-i, 1) * var(--stack-row) - var(--stack-top));
+    animation-range: exit-crossing
+      calc(var(--stack-i, 1) * var(--stack-row) - 100svh) exit-crossing
+      calc(var(--stack-i, 1) * var(--stack-row) - var(--stack-top));
   }
 
   .item:last-of-type {

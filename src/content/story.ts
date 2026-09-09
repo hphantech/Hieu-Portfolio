@@ -15,10 +15,7 @@ export type StoryVideo = {
 };
 
 export type StoryLayout =
-  | "mediaRight"
-  | "mediaLeft"
-  | "mediaWide"
-  | "mediaFloat";
+  "mediaRight" | "mediaLeft" | "mediaWide" | "mediaFloat";
 
 export type StoryBeat = {
   text: string;
@@ -75,9 +72,7 @@ export const story = {
   ] as const satisfies readonly StoryBeat[],
   beforeAbout: "Wanna know more about me?",
   beforeExperience: ["Work Experience"],
-  beforeMoreWork: [
-    "Want to see the work itself? Here's a few projects.",
-  ],
+  beforeMoreWork: ["Want to see the work itself? Here's a few projects."],
   beforeContact: [
     "That's a glimpse of how I like to build.",
     "If it feels like a fit — I'd love to hear from you.",

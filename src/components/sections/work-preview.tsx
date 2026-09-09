@@ -28,7 +28,10 @@ export function WorkPreview() {
         {stackProjects.map((project, index) => (
           <article
             key={project.slug}
-            className={cn(styles.item, TONE_CLASSES[index % TONE_CLASSES.length])}
+            className={cn(
+              styles.item,
+              TONE_CLASSES[index % TONE_CLASSES.length],
+            )}
             style={{ "--stack-i": index + 1 } as CSSProperties}
           >
             <div className={styles.inner}>

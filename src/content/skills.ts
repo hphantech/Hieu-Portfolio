@@ -12,7 +12,12 @@ export const skills = {
     },
     {
       label: "Craft",
-      items: ["Accessibility", "Responsive UI", "Design systems", "Performance"],
+      items: [
+        "Accessibility",
+        "Responsive UI",
+        "Design systems",
+        "Performance",
+      ],
     },
     {
       label: "Tools",

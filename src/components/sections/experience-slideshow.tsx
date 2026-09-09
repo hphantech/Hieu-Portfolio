@@ -48,7 +48,9 @@ export function ExperienceSlideshow({
   useEffect(() => {
     if (!emblaApi || images.length < 2 || paused) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduce) return;
 
     const id = window.setInterval(() => {

@@ -28,13 +28,7 @@ type ScatterAssembleProps = {
   className?: string;
 };
 
-function spring2D(
-  s: Particle,
-  tx: number,
-  ty: number,
-  k = 0.08,
-  d = 0.75,
-) {
+function spring2D(s: Particle, tx: number, ty: number, k = 0.08, d = 0.75) {
   s.vx += (tx - s.x) * k;
   s.vx *= d;
   s.x += s.vx;
@@ -88,7 +82,11 @@ export function ScatterAssemble({ text, className }: ScatterAssembleProps) {
       off.width = w;
       off.height = h;
 
-      const fs = Math.min(h * 0.28, (w / Math.max(value.length, 1)) * 1.35, 120);
+      const fs = Math.min(
+        h * 0.28,
+        (w / Math.max(value.length, 1)) * 1.35,
+        120,
+      );
       octx.font = `700 ${fs}px ${spaceGrotesk.style.fontFamily}, sans-serif`;
       octx.textAlign = "center";
       octx.textBaseline = "middle";

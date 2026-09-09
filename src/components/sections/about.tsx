@@ -16,7 +16,6 @@ gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
 const layoutClass: Record<(typeof about.chapters)[number]["layout"], string> = {
   duo: styles.layoutDuo,
-  mirror: styles.layoutMirror,
   hero: styles.layoutHero,
   cascade: styles.layoutCascade,
 };

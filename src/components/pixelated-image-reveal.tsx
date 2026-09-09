@@ -70,7 +70,9 @@ export function PixelatedImageReveal({
         }
       }
 
-      const pixels = pixelGrid.querySelectorAll<HTMLElement>(`.${styles.pixel}`);
+      const pixels = pixelGrid.querySelectorAll<HTMLElement>(
+        `.${styles.pixel}`,
+      );
       const staggerDuration = animationStepDuration / pixels.length;
       let isActive = false;
       let delayedCall: gsap.core.Tween | undefined;

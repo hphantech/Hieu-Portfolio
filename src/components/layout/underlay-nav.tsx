@@ -439,10 +439,7 @@ export function UnderlayNav() {
           </Link>
 
           <div className="flex items-start gap-2 sm:gap-3">
-            <MuteButton
-              src={site.musicUrl || undefined}
-              className="mt-0.5"
-            />
+            <MuteButton src={site.musicUrl || undefined} className="mt-0.5" />
             <button
               ref={toggleBtnRef}
               type="button"

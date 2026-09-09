@@ -53,16 +53,8 @@ export function Skills() {
       });
 
       tl.to(header, { autoAlpha: 1, y: 0, duration: 0.5 }, 0)
-        .to(
-          groups,
-          { autoAlpha: 1, y: 0, stagger: 0.12, duration: 0.55 },
-          0.08,
-        )
-        .to(
-          items,
-          { autoAlpha: 1, y: 0, stagger: 0.03, duration: 0.4 },
-          0.18,
-        );
+        .to(groups, { autoAlpha: 1, y: 0, stagger: 0.12, duration: 0.55 }, 0.08)
+        .to(items, { autoAlpha: 1, y: 0, stagger: 0.03, duration: 0.4 }, 0.18);
 
       const onHeroReady = () => ScrollTrigger.refresh();
       window.addEventListener("portfolio:hero-ready", onHeroReady);

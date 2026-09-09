@@ -15,11 +15,7 @@ const TONE_CLASSES = [
 /** Sticky 3-card stack for internships, co-makers, and collaborations. */
 export function Experience() {
   return (
-    <section
-      id="experience"
-      aria-label="Experience"
-      className={styles.section}
-    >
+    <section id="experience" aria-label="Experience" className={styles.section}>
       <div className={styles.stack}>
         {experiences.map((item, index) => {
           const hasVideos = Boolean(item.videos?.length);

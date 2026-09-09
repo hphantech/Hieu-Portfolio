@@ -215,8 +215,7 @@ export function StoryLines({
       ) : null}
 
       {beats.map((beat) => {
-        const mediaCount =
-          (beat.video ? 1 : 0) + (beat.images?.length ?? 0);
+        const mediaCount = (beat.video ? 1 : 0) + (beat.images?.length ?? 0);
         const hasMedia = mediaCount > 0;
         const layout = beat.layout ?? "mediaRight";
         let frameIndex = 0;
@@ -245,7 +244,9 @@ export function StoryLines({
                   <div
                     className={cn(
                       styles.mediaFrame,
-                      styles[`mediaFrame${++frameIndex}` as keyof typeof styles],
+                      styles[
+                        `mediaFrame${++frameIndex}` as keyof typeof styles
+                      ],
                     )}
                   >
                     <video

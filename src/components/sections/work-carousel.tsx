@@ -48,8 +48,7 @@ export function WorkCarousel() {
     : { type: "spring" as const, bounce: 0.15, duration: 0.85 };
 
   const toPrev = () => setActiveIndex((prev) => Math.max(0, prev - 1));
-  const toNext = () =>
-    setActiveIndex((prev) => Math.min(total - 1, prev + 1));
+  const toNext = () => setActiveIndex((prev) => Math.min(total - 1, prev + 1));
   const toSlide = (index: number) => setActiveIndex(index);
 
   return (
