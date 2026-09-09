@@ -36,7 +36,7 @@ export function ExperienceSlideshow({
 
   useEffect(() => {
     if (!emblaApi) return;
-    onSelect();
+    // Embla starts at snap 0 — same as initial index state.
     emblaApi.on("select", onSelect);
     emblaApi.on("reInit", onSelect);
     return () => {

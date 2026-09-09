@@ -8,6 +8,7 @@ import {
   useContext,
   useEffect,
   useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
@@ -22,12 +23,49 @@ export function useLenisInstance() {
   return useContext(LenisContext);
 }
 
+type LenisStore = {
+  subscribe: (onStoreChange: () => void) => () => void;
+  getSnapshot: () => Lenis | null;
+  getServerSnapshot: () => null;
+  set: (next: Lenis | null) => void;
+};
+
+function createLenisStore(): LenisStore {
+  let instance: Lenis | null = null;
+  const listeners = new Set<() => void>();
+
+  return {
+    subscribe(onStoreChange) {
+      listeners.add(onStoreChange);
+      return () => {
+        listeners.delete(onStoreChange);
+      };
+    },
+    getSnapshot() {
+      return instance;
+    },
+    getServerSnapshot() {
+      return null;
+    },
+    set(next) {
+      instance = next;
+      listeners.forEach((listener) => listener());
+    },
+  };
+}
+
 /**
  * Site-wide Lenis smooth scroll, driven by GSAP's ticker so ScrollTrigger
  * scrub animations stay in sync (autoRaf alone can freeze/desync ST).
  */
 export function LenisProvider({ children }: { children: ReactNode }) {
-  const [lenis, setLenis] = useState<Lenis | null>(null);
+  const [store] = useState(createLenisStore);
+
+  const lenis = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getServerSnapshot,
+  );
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -46,14 +84,14 @@ export function LenisProvider({ children }: { children: ReactNode }) {
     gsap.ticker.add(tickerFn);
     gsap.ticker.lagSmoothing(0);
 
-    setLenis(instance);
+    store.set(instance);
 
     return () => {
       gsap.ticker.remove(tickerFn);
       instance.destroy();
-      setLenis(null);
+      store.set(null);
     };
-  }, []);
+  }, [store]);
 
   return (
     <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>

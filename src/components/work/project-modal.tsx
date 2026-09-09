@@ -10,6 +10,7 @@ import {
   useId,
   useRef,
   useState,
+  useSyncExternalStore,
   type MouseEvent,
 } from "react";
 import { createPortal } from "react-dom";
@@ -20,6 +21,8 @@ import styles from "./project-modal.module.css";
 
 gsap.registerPlugin(useGSAP);
 
+const emptySubscribe = () => () => {};
+
 type ProjectModalProps = {
   project: Project | null;
   onClose: () => void;
@@ -27,21 +30,22 @@ type ProjectModalProps = {
 
 /** Animated project detail popup — no route change. */
 export function ProjectModal({ project, onClose }: ProjectModalProps) {
-  const [mounted, setMounted] = useState(false);
-  const [visibleProject, setVisibleProject] = useState<Project | null>(project);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
+  const [visibleProject, setVisibleProject] = useState<Project | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
   const open = Boolean(project);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (project) setVisibleProject(project);
-  }, [project]);
+  // Keep last project visible while the close animation runs.
+  if (project && project.slug !== visibleProject?.slug) {
+    setVisibleProject(project);
+  }
 
   useEffect(() => {
     if (!open) return;
