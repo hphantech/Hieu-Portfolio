@@ -35,8 +35,9 @@ type StoryLinesProps = {
   /**
    * `chapter` = tall scroll chapters (intro).
    * `bridge` = shorter beats between sections.
+   * `solo` = one line fills the viewport so it reads alone.
    */
-  density?: "chapter" | "bridge";
+  density?: "chapter" | "bridge" | "solo";
   className?: string;
 };
 
@@ -202,7 +203,11 @@ export function StoryLines({
       aria-labelledby={headingId}
       className={cn(
         styles.section,
-        density === "chapter" ? styles.chapter : styles.bridge,
+        density === "chapter"
+          ? styles.chapter
+          : density === "solo"
+            ? styles.solo
+            : styles.bridge,
         className,
       )}
     >

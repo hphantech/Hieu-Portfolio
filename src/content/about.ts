@@ -18,9 +18,9 @@ export const about = {
       layout: "duo" as const,
       headline: "I have a dog named Mochi.",
       body: [
-        "She is honestly one of the best parts of my day. After long stretches of building websites, fixing bugs, or sitting in front of a laptop, hanging out with Mochi pulls me straight back into real life.",
-        "We go on walks, she steals the couch, I take way too many photos of her, and somehow that mix of chaos and calm is exactly what I need. I always try to spend time with her — not as a break from work, but because that time matters to me.",
-        "If you know me outside school or projects, you already know: Mochi is family, and she shows up in my life a lot more than any side project ever will.",
+        "Honestly one of the best parts of my day :))) After too many hours on a laptop, hanging out with her just hits different.",
+        "Walks, couch stealing, way too many photos… that chaos + calm combo is exactly what I need. Not a “break from work”, just time that matters <3",
+        "If you know me IRL you already know. Mochi is family, full stop.",
       ],
       images: [
         {
@@ -35,13 +35,13 @@ export const about = {
     },
     {
       id: "travel",
-      label: "Travel & hiking",
+      label: "Traveling",
       layout: "cascade" as const,
-      headline: "I like to travel — and I really like hiking.",
+      headline: "Traveling is my reset button.",
       body: [
-        "Going somewhere new resets how I think. I went to Bangkok for a full semester as an IT minor exchange student, studied there, worked with people from different countries, and got thrown into a completely different rhythm than home.",
-        "That exchange was not just classes. It was food stalls, late nights figuring things out, campus events, and learning how to settle into a city that moves fast.",
-        "When I am not studying or building, I go hiking whenever I can. Mountains, long trails, quiet views — being outside clears my head better than any productivity hack. Travel and hiking are how I recharge, and they keep me curious.",
+        "I did a full semester in Bangkok as an IT minor exchange. New city, new people, totally different pace. Loved it.",
+        "Food stalls, late nights figuring stuff out, campus chaos… it was a lot, in the best way :))",
+        "When I’m home I still try to get out whenever I can. New places clear my head better than any productivity tip ever will.",
       ],
       images: [
         {
@@ -62,11 +62,11 @@ export const about = {
       id: "cooking",
       label: "Cooking",
       layout: "hero" as const,
-      headline: "I like to cook — and I improvise.",
+      headline: "I cook. And I freestyle a lot.",
       body: [
-        "I do not always follow a strict recipe. Half the fun is opening the fridge, seeing what is there, and turning it into something that actually tastes good.",
-        "Sometimes that means a full plate like chicken rice with broth and sides. Sometimes it is just experimenting until it works. Cooking is my creative reset: taste, adjust, plate it, and enjoy it with people I care about.",
-        "That same improvising mindset shows up in how I build interfaces too — try something, feel if it works, refine it, and ship.",
+        "I don’t always follow recipes. Open the fridge, see what’s there, make it taste good. Half the fun is improvising :)",
+        "Sometimes it’s a full plate of chicken rice. Sometimes it’s “wait does this even work”. Either way I love plating it up and sharing it.",
+        "Same vibe as building stuff. Try it, taste it, tweak it, done <3",
       ],
       images: [
         {

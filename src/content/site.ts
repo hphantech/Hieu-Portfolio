@@ -2,23 +2,22 @@ import type { NavItem, SocialLink } from "@/types/content";
 
 /**
  * Core identity + contact details.
- * TODO: replace every placeholder value below before submitting the application.
  */
 export const site = {
   name: "Hieu Phan",
-  role: "Frontend Developer",
+  role: "Software Engineer",
   tagline:
     "Building accessible, kinetic interfaces with React, Next.js, and TypeScript.",
-  location: "Netherlands", // TODO: confirm city
-  university: "Add your Dutch university name here", // TODO
-  studyProgram: "Add your degree / field of study here", // TODO
-  availability:
-    "Available for a Frontend Developer internship from September 2026",
-  email: "hello@example.com", // TODO: replace with your real email
-  resumeUrl: "/resume-placeholder.pdf", // TODO: add a real CV file to /public and update this path
+  location: "Almere, Netherlands",
+  university: "Windesheim University of Applied Sciences",
+  studyProgram: "Software Engineering",
+  availability: "Available for a graduation internship starting February 2027",
+  email: "hphan.tech@gmail.com",
+  /** Add your CV as /public/resume.pdf and keep this path in sync. */
+  resumeUrl: "/resume.pdf",
   /** Ambient loop for the nav mute button. */
   musicUrl: "/alex-morgan-lofi-midnight-club-568164.mp3",
-  url: "https://hieu-portfolio-five.vercel.app", // TODO: replace with a custom domain if you set one up
+  url: "https://hieu-portfolio-five.vercel.app",
   repoUrl: "https://github.com/hphantech/Hieu-Portfolio",
   githubUsername: "hphantech",
   socialGithubUrl: "https://github.com/hphantech",
@@ -33,15 +32,20 @@ export const navItems: NavItem[] = [
 ];
 
 export const socialLinks: SocialLink[] = [
-  { label: "GitHub", href: "https://github.com/hphantech", icon: "github" }, // TODO: confirm URL
-  { label: "LinkedIn", href: "https://linkedin.com/in/", icon: "linkedin" }, // TODO: add your LinkedIn URL
+  { label: "GitHub", href: "https://github.com/hphantech", icon: "github" },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/hyutech/",
+    icon: "linkedin",
+  },
   { label: "Email", href: `mailto:${site.email}`, icon: "mail" },
 ];
 
 export const seoDefaults = {
-  title: `${site.name} — ${site.role}`,
+  title: site.name,
   description: site.tagline,
   keywords: [
+    "software engineer",
     "frontend developer",
     "React",
     "Next.js",

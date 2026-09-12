@@ -32,7 +32,7 @@ export const story = {
       text: "Hi! and welcome to my portfolio :)",
     },
     {
-      text: "If your looking through my portfolio, it probably means you want to know more about me ^^",
+      text: "If you're looking through my portfolio, it probably means you want to know more about me ^^",
     },
     {
       text: "My name is Hieu, I am 20 years old and I am a student at University of applied sciences Windesheim in Almere, The Netherlands.",
@@ -49,7 +49,7 @@ export const story = {
       ],
     },
     {
-      text: "I am currently studying to become a Frontend Developer, and I am looking for a internship from September 2026.",
+      text: "I am currently studying to become a Software Engineer, and I am looking for a graduation internship Starting February 2027. sooo if you happen to know anything about that feel free to contact me ;)",
     },
     {
       text: "I also run a business called Yulin Studios where me and my team help and make websites/webshop for other businesses",
@@ -74,7 +74,7 @@ export const story = {
   beforeExperience: ["Work Experience"],
   beforeMoreWork: ["Want to see the work itself? Here's a few projects."],
   beforeContact: [
-    "That's a glimpse of how I like to build.",
-    "If it feels like a fit — I'd love to hear from you.",
+    "That's a glimpse of how I like to build and who I am.",
+    "If it feels like a fit, I'd love to hear from you.",
   ],
 } as const;

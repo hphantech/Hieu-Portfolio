@@ -80,6 +80,13 @@ export function WorkCarousel() {
                         : { type: "spring", bounce: 0.08, duration: 1 }
                     }
                   >
+                    <div className={styles.caption}>
+                      <p className={styles.captionTitle}>{project.title}</p>
+                      <span className={styles.captionMeta}>
+                        {project.year} · {project.role}
+                      </span>
+                    </div>
+
                     <button
                       type="button"
                       className={styles.frame}
@@ -102,27 +109,6 @@ export function WorkCarousel() {
                         priority={isActive}
                       />
                     </button>
-
-                    <motion.div
-                      className={styles.caption}
-                      animate={{
-                        filter: isActive ? "blur(0px)" : "blur(2px)",
-                        opacity: isActive ? 1 : 0,
-                      }}
-                      transition={
-                        prefersReducedMotion
-                          ? { duration: 0 }
-                          : { duration: 0.35 }
-                      }
-                    >
-                      <p className={styles.captionTitle}>{project.title}</p>
-                      <span
-                        className={styles.captionMeta}
-                        aria-hidden={!isActive}
-                      >
-                        {project.year} · {project.role}
-                      </span>
-                    </motion.div>
                   </motion.div>
                 </div>
               );

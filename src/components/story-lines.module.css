@@ -33,6 +33,16 @@
   padding-block: 6vh;
 }
 
+.solo .container {
+  min-height: 100dvh;
+  padding: 0;
+  justify-content: center;
+}
+
+.solo {
+  padding-block: 0;
+}
+
 .container {
   display: flex;
   align-items: center;

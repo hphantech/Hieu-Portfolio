@@ -96,18 +96,19 @@
   gap: 0.35rem;
   min-height: 2.75rem;
   text-align: center;
+  opacity: 1;
 }
 
 .captionTitle {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 1.05rem;
   font-weight: 500;
   letter-spacing: -0.01em;
 }
 
 @media (min-width: 768px) {
   .captionTitle {
-    font-size: 1rem;
+    font-size: 1.25rem;
   }
 }
 

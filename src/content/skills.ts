@@ -1,27 +1,21 @@
 /**
- * Skills shown on the home page.
- * Edit groups/items here — the section only renders them.
+ * Skills shown on the home page — keep this scannable for recruiters.
  */
 export const skills = {
   headline: "Skills",
-  lead: "Tools and craft I use to ship clear, kinetic interfaces.",
+  lead: "Languages, frameworks, and tools I use to build websites and apps.",
   groups: [
     {
-      label: "Frontend",
-      items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "GSAP"],
+      label: "Languages",
+      items: ["TypeScript", "JavaScript", "HTML", "CSS"],
     },
     {
-      label: "Craft",
-      items: [
-        "Accessibility",
-        "Responsive UI",
-        "Design systems",
-        "Performance",
-      ],
+      label: "Frameworks & libraries",
+      items: ["React", "Next.js", "React Native", "Tailwind CSS", "GSAP"],
     },
     {
       label: "Tools",
-      items: ["Git", "Figma", "Vercel", "Cursor"],
+      items: ["Git", "Figma", "Vercel", "Cursor", "VS Code"],
     },
   ],
 } as const;

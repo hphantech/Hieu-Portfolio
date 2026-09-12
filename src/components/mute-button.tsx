@@ -1,33 +1,41 @@
 "use client";
 
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
 import styles from "./mute-button.module.css";
 
+gsap.registerPlugin(useGSAP);
+
 type MuteButtonProps = {
-  /** Looped track. Wave still animates without a src. */
+  /** Looped track. Bars still animate without a src. */
   src?: string;
   className?: string;
 };
 
-const SIZE = 45;
+/** Bar center-x in the 18×16 viewBox (matches reference mute SVG). */
+const BAR_XS = [0, 4, 8, 12, 16] as const;
+const BAR_W = 2;
+const VIEW_H = 16;
+const MUTED_H = 2.5;
 
-/**
- * Lusion-style sound button: soft grey disc + thick black sine-wave stroke.
- * Wave amplitude animates while unmuted.
- * Tries to autoplay on enter; unlocks on first gesture if the browser blocks it.
- */
+function barAttrs(height: number) {
+  const h = gsap.utils.clamp(MUTED_H, VIEW_H, height);
+  return { height: h, y: (VIEW_H - h) / 2 };
+}
+
+/** Equalizer-bar mute control — circular disc with bouncing sound bars. */
 export function MuteButton({ src, className }: MuteButtonProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const rootRef = useRef<HTMLButtonElement>(null);
+  const fillRef = useRef<HTMLSpanElement>(null);
+  const barsRef = useRef<(SVGRectElement | null)[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
   const mutedRef = useRef(true);
   const autoplayPendingRef = useRef(Boolean(src));
-  const phaseRef = useRef(0);
-  const ampRef = useRef(0.22);
-  const ampTargetRef = useRef(0.22);
-  const rafRef = useRef(0);
+  const waveTweensRef = useRef<gsap.core.Tween[]>([]);
   const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
@@ -90,7 +98,6 @@ export function MuteButton({ src, className }: MuteButtonProps) {
         audio.pause();
         return;
       }
-      // Resume only if the user still has sound unmuted.
       if (!mutedRef.current) {
         void audio.play().catch(() => {
           mutedRef.current = true;
@@ -103,83 +110,88 @@ export function MuteButton({ src, className }: MuteButtonProps) {
     return () => document.removeEventListener("visibilitychange", onVisibility);
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  useGSAP(
+    () => {
+      const bars = barsRef.current.filter((bar): bar is SVGRectElement =>
+        Boolean(bar),
+      );
+      const fill = fillRef.current;
+      if (!bars.length || !fill) return;
 
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = SIZE * dpr;
-    canvas.height = SIZE * dpr;
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      waveTweensRef.current.forEach((tween) => tween.kill());
+      waveTweensRef.current = [];
 
-    const draw = () => {
-      ctx.clearRect(0, 0, SIZE, SIZE);
+      gsap.set(fill, { transformOrigin: "50% 50%" });
 
-      // Soft cool-grey disc (matches Lusion)
-      ctx.beginPath();
-      ctx.arc(SIZE / 2, SIZE / 2, SIZE / 2 - 0.5, 0, Math.PI * 2);
-      ctx.fillStyle = "#e4e6ee";
-      ctx.fill();
-
-      const padX = SIZE * 0.2;
-      const midY = SIZE / 2 + SIZE * 0.02;
-      const amp = ampRef.current * SIZE;
-      const phase = phaseRef.current;
-
-      ctx.beginPath();
-      ctx.lineWidth = SIZE * 0.145;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.strokeStyle = "#111111";
-
-      /*
-       * Lusion glyph: one smooth hump (peak in the middle). While unmuted,
-       * phase scrolls so the wave reads as a live signal.
-       */
-      const steps = 64;
-      for (let i = 0; i <= steps; i++) {
-        const t = i / steps;
-        const x = padX + t * (SIZE - padX * 2);
-        const y =
-          midY -
-          Math.sin(t * Math.PI + phase) * amp -
-          Math.sin(t * Math.PI * 2 + phase * 1.4) * amp * 0.12;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-    };
-
-    let last = performance.now();
-    const loop = (now: number) => {
-      const dt = Math.min(32, now - last) / 1000;
-      last = now;
-
-      // Muted = quieter static arch; unmuted = taller + scrolling
-      ampTargetRef.current = mutedRef.current ? 0.2 : 0.26;
-      ampRef.current += (ampTargetRef.current - ampRef.current) * 0.14;
-
-      if (!mutedRef.current && !prefersReducedMotion) {
-        phaseRef.current += dt * 3.6;
-      } else {
-        // Ease phase toward a rest pose (peak centered)
-        const rest = 0;
-        phaseRef.current += (rest - phaseRef.current) * 0.08;
+      if (isMuted) {
+        bars.forEach((bar, i) => {
+          gsap.to(bar, {
+            attr: barAttrs(MUTED_H),
+            duration: 0.35,
+            delay: i * 0.03,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        });
+        gsap.to(fill, {
+          scale: 0,
+          duration: 0.3,
+          ease: "power2.in",
+          overwrite: true,
+        });
+        return;
       }
 
-      draw();
-      rafRef.current = requestAnimationFrame(loop);
-    };
+      gsap.to(fill, {
+        scale: 1.05,
+        duration: 0.45,
+        ease: "power3.out",
+        overwrite: true,
+      });
 
-    rafRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafRef.current);
-  }, []);
+      if (reduceMotion) {
+        const heights = [7, 12, 16, 9, 14];
+        bars.forEach((bar, i) => {
+          gsap.set(bar, { attr: barAttrs(heights[i]!) });
+        });
+        return;
+      }
+
+      // Bounce each bar’s height around the vertical center — no scale drift.
+      const ranges = [
+        [5, 12],
+        [7, 16],
+        [4, 14],
+        [6, 15],
+        [5, 13],
+      ] as const;
+
+      bars.forEach((bar, i) => {
+        const [minH, maxH] = ranges[i]!;
+        gsap.set(bar, { attr: barAttrs(minH) });
+        const tween = gsap.to(bar, {
+          keyframes: [
+            { attr: barAttrs(maxH), duration: 0.32 + i * 0.04 },
+            { attr: barAttrs(minH), duration: 0.32 + i * 0.04 },
+          ],
+          ease: "sine.inOut",
+          repeat: -1,
+          delay: i * 0.07,
+        });
+        waveTweensRef.current.push(tween);
+      });
+
+      return () => {
+        waveTweensRef.current.forEach((tween) => tween.kill());
+        waveTweensRef.current = [];
+      };
+    },
+    { scope: rootRef, dependencies: [isMuted] },
+  );
 
   const onClick = async () => {
     const nextMuted = !mutedRef.current;
@@ -203,6 +215,8 @@ export function MuteButton({ src, className }: MuteButtonProps) {
     }
   };
 
+  const muted = barAttrs(MUTED_H);
+
   return (
     <>
       {src ? (
@@ -216,6 +230,7 @@ export function MuteButton({ src, className }: MuteButtonProps) {
         />
       ) : null}
       <button
+        ref={rootRef}
         id="header-right-sound-btn"
         type="button"
         className={cn(styles.button, className)}
@@ -223,14 +238,27 @@ export function MuteButton({ src, className }: MuteButtonProps) {
         aria-pressed={!isMuted}
         onClick={onClick}
       >
-        <span className="sr-only">Toggle sound</span>
-        <canvas
-          ref={canvasRef}
-          className={styles.canvas}
-          width={SIZE}
-          height={SIZE}
-          aria-hidden="true"
-        />
+        <span className="sr-only">Toggle Sound</span>
+        <div className={styles.bg} aria-hidden="true" />
+        <svg className={styles.icon} viewBox="0 0 18 16" aria-hidden="true">
+          {BAR_XS.map((x, i) => (
+            <rect
+              key={x}
+              ref={(el) => {
+                barsRef.current[i] = el;
+              }}
+              className={styles.bar}
+              x={x}
+              y={muted.y}
+              width={BAR_W}
+              height={muted.height}
+              rx={1}
+            />
+          ))}
+        </svg>
+        <div className={styles.inner} aria-hidden="true">
+          <span ref={fillRef} className={styles.fill} />
+        </div>
       </button>
     </>
   );

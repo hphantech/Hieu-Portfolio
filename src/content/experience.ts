@@ -26,16 +26,15 @@ export type ExperienceItem = {
 
 /**
  * Experience cards for the sticky stack (keep to 3 for the scroll animation).
- * TODO: replace with your real internships / co-makers / roles.
  */
 export const experiences: ExperienceItem[] = [
   {
     id: "yulin-studios",
     org: "Yulin Studios",
     role: "Software Engineer · Founder",
-    period: "2024 — Present",
+    period: "Jan 2026 to Present",
     summary:
-      "Started my own studio to build websites and webshops for businesses and strengthen their online presence — still active with partners like Chayue Tea and more clients underway.",
+      "My own studio and brand. I started Yulin Studios to build websites and webshops for businesses and strengthen their online presence. Still active with partners like Chayue Tea and more clients underway.",
     highlights: [
       "Lead software engineering across client sites and shops",
       "Small core team: InfoSec (brother-in-law), BIM (partner), plus freelance engineering when projects scale",
@@ -60,16 +59,15 @@ export const experiences: ExperienceItem[] = [
   {
     id: "cyberaventura",
     org: "Cyberaventura",
-    role: "Mobile App Developer",
-    period: "2025",
+    role: "Mobile App Developer · Internship",
+    period: "Feb 2026 to Jun 2026",
     summary:
-      "Built the mobile app version of Cyberaventura’s existing website — a Duolingo-style experience that teaches cybersecurity through games and short lessons.",
+      "Internship project: a mobile app prototype based on Cyberaventura’s existing website. A Duolingo-style experience that teaches cybersecurity through games and short lessons. Not live, built as a prototype for the internship.",
     highlights: [
       "Translated the web product into a mobile-first app flow",
-      "Kept learning loops short, clear, and game-like",
       "Matched the brand while shaping screens for phone use",
     ],
-    tags: ["Mobile", "UI", "Gamification", "Product"],
+    tags: ["Internship", "Mobile", "UI", "Gamification"],
     videos: [
       {
         src: "/videos/cyberaventura-1.mp4",
@@ -87,15 +85,15 @@ export const experiences: ExperienceItem[] = [
     id: "squareaim",
     org: "SquareAim",
     role: "Co-Maker · Frontend",
-    period: "2024 — 2025",
+    period: "2024 to 2025",
     summary:
-      "Co-Maker project for a football planner app — match with people nearby who want to play, like Tinder but for pickup football games.",
+      "School Co-Maker at SquareAim, a web agency. We built a local prototype football planner app so people nearby can find others who want to play and join pickup games. Not a live product, a prototype for the Co-Maker.",
     highlights: [
-      "Helped shape flows for finding and joining random matches",
+      "Helped shape flows for finding and joining nearby matches",
       "Built frontend pieces around profiles, availability, and meetups",
-      "Worked with the team to turn the “football Tinder” idea into a usable product",
+      "Worked with the team to turn the brief into a usable local prototype",
     ],
-    tags: ["Co-Maker", "Mobile", "Matching", "Football"],
+    tags: ["Co-Maker", "Prototype", "Mobile", "Football"],
     images: [
       {
         src: "/images/experience/squareaim-logo.png",

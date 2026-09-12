@@ -1,6 +1,9 @@
+"use client";
+
 import { Download, Send } from "lucide-react";
 
 import { GithubGlassCard } from "@/components/github-glass-card";
+import { FlyText, flyPresets } from "@/components/motion/fly-text";
 import { Magnetic } from "@/components/motion/magnetic";
 import { Reveal } from "@/components/motion/reveal";
 import { SocialIcon } from "@/components/social-icon";
@@ -19,11 +22,15 @@ export function Contact() {
         <Reveal>
           <div className="flex max-w-md flex-col gap-4 sm:max-w-lg sm:gap-5">
             <div className="space-y-2">
-              <h2 className="text-foreground text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
-                Let&apos;s build something.
-              </h2>
+              <FlyText
+                as="h2"
+                className="text-foreground text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl"
+                {...flyPresets.blast}
+              >
+                {"Let's build something."}
+              </FlyText>
               <p className="text-muted-foreground text-sm leading-snug sm:text-base sm:leading-relaxed">
-                Frontend internship from September 2026. Drag the card — or
+                Graduation internship from February 2027. Drag the card, or
                 reach out.
               </p>
             </div>
