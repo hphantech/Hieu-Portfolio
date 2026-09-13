@@ -16,6 +16,9 @@ import "lenis/dist/lenis.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/** Avoid ScrollTrigger refresh jumps when the mobile URL bar shows/hides. */
+ScrollTrigger.config({ ignoreMobileResize: true });
+
 const LenisContext = createContext<Lenis | null>(null);
 
 /** Current Lenis instance, or `null` when disabled / not yet mounted. */
@@ -54,6 +57,15 @@ function createLenisStore(): LenisStore {
   };
 }
 
+function isSamePageHashLink(anchor: HTMLAnchorElement) {
+  const href = anchor.getAttribute("href");
+  if (!href || !href.startsWith("#") || href === "#") return null;
+  const id = decodeURIComponent(href.slice(1));
+  if (!id) return null;
+  // Ignore new-tab / modified clicks so browser defaults still work.
+  return id;
+}
+
 /**
  * Site-wide Lenis smooth scroll, driven by GSAP's ticker so ScrollTrigger
  * scrub animations stay in sync (autoRaf alone can freeze/desync ST).
@@ -74,6 +86,9 @@ export function LenisProvider({ children }: { children: ReactNode }) {
 
     const instance = new Lenis({
       autoRaf: false,
+      // Keep native touch scrolling; Lenis only eases wheel. Avoids touch jumps.
+      syncTouch: false,
+      touchMultiplier: 1,
     });
 
     instance.on("scroll", ScrollTrigger.update);
@@ -84,9 +99,40 @@ export function LenisProvider({ children }: { children: ReactNode }) {
     gsap.ticker.add(tickerFn);
     gsap.ticker.lagSmoothing(0);
 
+    /** Route in-page anchors through Lenis so native smooth-scroll can't fight it. */
+    const onClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+        return;
+      }
+
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const anchor = target.closest("a");
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+      if (anchor.target && anchor.target !== "_self") return;
+
+      const id = isSamePageHashLink(anchor);
+      if (!id) return;
+
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      event.preventDefault();
+      instance.scrollTo(el, {
+        offset: 0,
+        duration: 1.1,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      });
+      history.pushState(null, "", `#${id}`);
+    };
+
+    document.addEventListener("click", onClick);
+
     store.set(instance);
 
     return () => {
+      document.removeEventListener("click", onClick);
       gsap.ticker.remove(tickerFn);
       instance.destroy();
       store.set(null);
