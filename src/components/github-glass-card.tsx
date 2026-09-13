@@ -77,25 +77,10 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     };
   }, [username]);
 
-  const isDesktopLayout = useCallback(() => {
-    return window.matchMedia("(min-width: 901px)").matches;
-  }, []);
-
   const placeClusterRight = useCallback(() => {
     const cluster = clusterRef.current;
     const stage = stageRef.current;
     if (!cluster || !stage || hasDraggedRef.current) return;
-
-    // Mobile: CSS stacks the card in normal flow — clear any drag styles.
-    if (!isDesktopLayout()) {
-      cluster.style.position = "";
-      cluster.style.left = "";
-      cluster.style.top = "";
-      cluster.style.right = "";
-      cluster.style.margin = "";
-      cluster.style.translate = "";
-      return;
-    }
 
     cluster.style.position = "absolute";
     cluster.style.margin = "0";
@@ -107,9 +92,11 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
       STAGE_PAD,
       stage.clientWidth - cluster.offsetWidth - STAGE_PAD,
     );
-    const besideAside = aside
-      ? aside.offsetLeft + aside.offsetWidth + ASIDE_GAP
-      : maxLeft;
+    // Sit beside the copy on wide layouts; fall back to the stage edge on narrow.
+    const besideAside =
+      aside && stage.clientWidth > 900
+        ? aside.offsetLeft + aside.offsetWidth + ASIDE_GAP
+        : maxLeft;
     const left = Math.min(Math.max(STAGE_PAD, besideAside), maxLeft);
     const top = Math.max(
       STAGE_PAD,
@@ -117,7 +104,7 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     );
     cluster.style.left = `${left}px`;
     cluster.style.top = `${top}px`;
-  }, [isDesktopLayout]);
+  }, []);
 
   useEffect(() => {
     placeClusterRight();
@@ -136,66 +123,31 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     const stage = stageRef.current;
     if (!cluster || !stage) return;
 
-    const MOVE_THRESHOLD = 8;
-    const pendingRef = {
-      pointerId: -1,
-      startX: 0,
-      startY: 0,
-      left: 0,
-      top: 0,
-    };
-
     const onPointerDown = (e: PointerEvent) => {
-      if (!isDesktopLayout()) return;
       const target = e.target as HTMLElement;
       if (target.closest("button") || target.closest("a")) return;
 
+      hasDraggedRef.current = true;
       const rect = cluster.getBoundingClientRect();
       const stageRect = stage.getBoundingClientRect();
-      pendingRef.pointerId = e.pointerId;
-      pendingRef.startX = e.clientX;
-      pendingRef.startY = e.clientY;
-      pendingRef.left = rect.left - stageRect.left;
-      pendingRef.top = rect.top - stageRect.top;
-      dragRef.current = {
-        active: false,
-        startX: e.clientX,
-        startY: e.clientY,
-        left: pendingRef.left,
-        top: pendingRef.top,
-      };
-    };
-
-    const beginDrag = (e: PointerEvent) => {
-      hasDraggedRef.current = true;
       dragRef.current = {
         active: true,
-        startX: pendingRef.startX,
-        startY: pendingRef.startY,
-        left: pendingRef.left,
-        top: pendingRef.top,
+        startX: e.clientX,
+        startY: e.clientY,
+        left: rect.left - stageRect.left,
+        top: rect.top - stageRect.top,
       };
       cluster.classList.add(styles.dragging);
       cluster.setPointerCapture(e.pointerId);
       cluster.style.position = "absolute";
       cluster.style.right = "auto";
       cluster.style.translate = "none";
-      cluster.style.left = `${pendingRef.left}px`;
-      cluster.style.top = `${pendingRef.top}px`;
+      cluster.style.left = `${dragRef.current.left}px`;
+      cluster.style.top = `${dragRef.current.top}px`;
       cluster.style.margin = "0";
     };
 
     const onPointerMove = (e: PointerEvent) => {
-      if (!isDesktopLayout()) return;
-
-      if (!dragRef.current.active) {
-        if (pendingRef.pointerId !== e.pointerId) return;
-        const dx = e.clientX - pendingRef.startX;
-        const dy = e.clientY - pendingRef.startY;
-        if (Math.hypot(dx, dy) < MOVE_THRESHOLD) return;
-        beginDrag(e);
-      }
-
       if (!dragRef.current.active) return;
       e.preventDefault();
       const stageRect = stage.getBoundingClientRect();
@@ -214,7 +166,6 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     };
 
     const onPointerUp = (e: PointerEvent) => {
-      pendingRef.pointerId = -1;
       if (!dragRef.current.active) return;
       dragRef.current.active = false;
       cluster.classList.remove(styles.dragging);
@@ -236,7 +187,7 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
       cluster.removeEventListener("pointerup", onPointerUp);
       cluster.removeEventListener("pointercancel", onPointerUp);
     };
-  }, [isDesktopLayout]);
+  }, []);
 
   const displayName = stats?.name || site.name;
   const login = stats?.login || username;

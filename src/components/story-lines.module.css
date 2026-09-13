@@ -460,35 +460,6 @@
   }
 }
 
-@media (max-width: 767px) {
-  .spacer {
-    height: 8vh;
-  }
-
-  .chapter .container {
-    min-height: 0;
-    padding: 3.5rem 0;
-  }
-
-  .chapter .containerWithMedia {
-    min-height: 0;
-    padding: 3rem 0;
-  }
-
-  .bridge .container {
-    min-height: 0;
-    padding: 3rem 0;
-  }
-
-  .bridge {
-    padding-block: 2rem;
-  }
-
-  .solo .container {
-    min-height: 70svh;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .mediaImg {
     transition: none;

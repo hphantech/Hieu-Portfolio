@@ -159,12 +159,12 @@ export function Hero() {
       if (growingImage.length) {
         tl.to(
           growingImage,
-          { width: "100%", height: "100dvh", duration: 2 * s },
+          { width: "100vw", height: "100dvh", duration: 2 * s },
           `<${1.25 * s}`,
         );
       }
       if (box.length) {
-        tl.to(box, { width: "100%", duration: 2 * s }, "<");
+        tl.to(box, { width: "110vw", duration: 2 * s }, "<");
       }
 
       if (nameLetters.length) {

@@ -3,7 +3,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ProjectModal } from "@/components/work/project-modal";
 import { useLenisInstance } from "@/components/motion/lenis-provider";
@@ -12,8 +12,6 @@ import type { Project } from "@/types/content";
 import { cn } from "@/lib/utils";
 
 import styles from "./work-carousel.module.css";
-
-const SWIPE_THRESHOLD = 48;
 
 /**
  * 3D cover-flow carousel for additional work — wide landscape frames
@@ -25,26 +23,8 @@ export function WorkCarousel() {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [selected, setSelected] = useState<Project | null>(null);
-  const [isNarrow, setIsNarrow] = useState(false);
   const prefersReducedMotion = useReducedMotion();
   const lenis = useLenisInstance();
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const swipeRef = useRef<{
-    pointerId: number;
-    startX: number;
-    startY: number;
-    locked: "x" | "y" | null;
-  } | null>(null);
-  const activeIndexRef = useRef(activeIndex);
-  activeIndexRef.current = activeIndex;
-
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    const update = () => setIsNarrow(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
 
   useEffect(() => {
     if (!lenis) return;
@@ -61,90 +41,11 @@ export function WorkCarousel() {
     };
   }, [selected, lenis]);
 
-  useEffect(() => {
-    const viewport = viewportRef.current;
-    if (!viewport || total < 2) return;
-
-    const onPointerDown = (e: PointerEvent) => {
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      swipeRef.current = {
-        pointerId: e.pointerId,
-        startX: e.clientX,
-        startY: e.clientY,
-        locked: null,
-      };
-    };
-
-    const onPointerMove = (e: PointerEvent) => {
-      const swipe = swipeRef.current;
-      if (!swipe || swipe.pointerId !== e.pointerId) return;
-
-      const dx = e.clientX - swipe.startX;
-      const dy = e.clientY - swipe.startY;
-
-      if (!swipe.locked) {
-        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
-        swipe.locked = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
-        if (swipe.locked === "x") {
-          try {
-            viewport.setPointerCapture(e.pointerId);
-          } catch {
-            /* ignore */
-          }
-        }
-      }
-
-      if (swipe.locked === "x") {
-        e.preventDefault();
-      }
-    };
-
-    const finish = (e: PointerEvent) => {
-      const swipe = swipeRef.current;
-      if (!swipe || swipe.pointerId !== e.pointerId) return;
-
-      const dx = e.clientX - swipe.startX;
-      const axis = swipe.locked;
-      swipeRef.current = null;
-
-      try {
-        if (viewport.hasPointerCapture(e.pointerId)) {
-          viewport.releasePointerCapture(e.pointerId);
-        }
-      } catch {
-        /* ignore */
-      }
-
-      if (axis !== "x" || Math.abs(dx) < SWIPE_THRESHOLD) return;
-
-      const index = activeIndexRef.current;
-      if (dx < 0 && index < total - 1) {
-        setActiveIndex(index + 1);
-      } else if (dx > 0 && index > 0) {
-        setActiveIndex(index - 1);
-      }
-    };
-
-    viewport.addEventListener("pointerdown", onPointerDown);
-    viewport.addEventListener("pointermove", onPointerMove, { passive: false });
-    viewport.addEventListener("pointerup", finish);
-    viewport.addEventListener("pointercancel", finish);
-
-    return () => {
-      viewport.removeEventListener("pointerdown", onPointerDown);
-      viewport.removeEventListener("pointermove", onPointerMove);
-      viewport.removeEventListener("pointerup", finish);
-      viewport.removeEventListener("pointercancel", finish);
-    };
-  }, [total]);
-
   if (slides.length === 0) return null;
 
   const spring = prefersReducedMotion
     ? { duration: 0 }
     : { type: "spring" as const, bounce: 0.15, duration: 0.85 };
-
-  const rotateStep = prefersReducedMotion ? 0 : isNarrow ? 18 : 42;
 
   const toPrev = () => setActiveIndex((prev) => Math.max(0, prev - 1));
   const toNext = () => setActiveIndex((prev) => Math.min(total - 1, prev + 1));
@@ -153,7 +54,7 @@ export function WorkCarousel() {
   return (
     <section id="work" aria-label="Projects" className={styles.section}>
       <div className={styles.stage}>
-        <div ref={viewportRef} className={styles.viewport}>
+        <div className={styles.viewport}>
           <motion.div
             className={styles.track}
             animate={{
@@ -170,7 +71,7 @@ export function WorkCarousel() {
                   <motion.div
                     className={styles.card}
                     animate={{
-                      rotateY: offset * rotateStep,
+                      rotateY: prefersReducedMotion ? 0 : offset * 42,
                       scale: isActive ? 1 : 0.88,
                     }}
                     transition={

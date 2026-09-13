@@ -88,19 +88,13 @@
 }
 
 html {
-  scroll-behavior: auto;
-}
-
-html.lenis,
-html.lenis body {
-  height: auto;
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), system-ui, sans-serif;
-  overflow-x: clip;
 }
 
 /* Underlay menu: page slides left and reveals body behind it — keep that stage black. */

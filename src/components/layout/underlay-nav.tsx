@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 
 import { MuteButton } from "@/components/mute-button";
 import { SocialIcon } from "@/components/social-icon";
-import { useLenisInstance } from "@/components/motion/lenis-provider";
 import { navItems, site, socialLinks } from "@/content/site";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { cn } from "@/lib/utils";
@@ -37,7 +36,6 @@ export function UnderlayNav() {
   const { scrollYProgress } = useScroll();
   const activeId = useActiveSection(sectionIds);
   const prefersReducedMotion = useReducedMotion();
-  const lenis = useLenisInstance();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,8 +43,6 @@ export function UnderlayNav() {
   const menuRef = useRef<HTMLElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const darkRef = useRef<HTMLDivElement>(null);
-  const lenisRef = useRef(lenis);
-  lenisRef.current = lenis;
 
   useEffect(() => {
     const toggleBtn = toggleBtnRef.current;
@@ -356,14 +352,10 @@ export function UnderlayNav() {
       );
 
       if (isOpenInternal) {
-        lenisRef.current?.stop();
-        document.documentElement.style.overflow = "hidden";
         tl.invalidate();
         if (tl.time() >= enterEndTime) tl.timeScale(1).restart();
         else tl.timeScale(1).play();
       } else if (tl.time() < enterEndTime) {
-        lenisRef.current?.start();
-        document.documentElement.style.overflow = "";
         tl.timeScale(1).reverse();
       } else {
         /**
@@ -377,8 +369,6 @@ export function UnderlayNav() {
          * state has already flipped to closed). Nudging the playhead a hair
          * past that boundary before playing avoids the re-trigger.
          */
-        lenisRef.current?.start();
-        document.documentElement.style.overflow = "";
         tl.timeScale(1).play(Math.max(tl.time(), enterEndTime + 0.001));
       }
     }
@@ -429,14 +419,12 @@ export function UnderlayNav() {
       clearTimeout(resizeTimer);
       tl?.kill();
       document.body.removeAttribute("data-menu-status");
-      document.documentElement.style.overflow = "";
-      lenisRef.current?.start();
     };
   }, [prefersReducedMotion]);
 
   return (
     <>
-      <header className="text-foreground fixed inset-x-0 top-0 z-[100] pt-[env(safe-area-inset-top)]">
+      <header className="text-foreground fixed inset-x-0 top-0 z-[100]">
         <motion.div
           aria-hidden="true"
           className="bg-accent absolute inset-x-0 top-0 h-[2px] origin-left"

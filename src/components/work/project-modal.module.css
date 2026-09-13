@@ -1,13 +1,10 @@
 .overlay {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 80;
   display: grid;
   place-items: center;
-  padding: max(0.5rem, env(safe-area-inset-top))
-    max(0.5rem, env(safe-area-inset-right))
-    max(0.5rem, env(safe-area-inset-bottom))
-    max(0.5rem, env(safe-area-inset-left));
+  padding: clamp(0.5rem, 1.5vw, 1.25rem);
   background: color-mix(in srgb, #050505 72%, transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -178,18 +175,16 @@
 @media (max-width: 767px) {
   .panel {
     width: 100%;
-    max-height: 100dvh;
-    max-height: 100svh;
+    max-height: 96dvh;
     border-radius: 1.1rem;
-    padding-top: env(safe-area-inset-top);
   }
 
   .media {
-    max-height: 36vh;
+    max-height: 40vh;
   }
 
   .close {
-    top: max(0.65rem, env(safe-area-inset-top));
+    top: 0.65rem;
     margin: 0.65rem 0.65rem -3.1rem auto;
   }
 }
