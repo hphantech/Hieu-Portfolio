@@ -65,9 +65,6 @@ export function About() {
             autoAlpha: 1,
             y: 0,
           });
-          gsap.set(section.querySelectorAll(`.${styles.index}`), {
-            autoAlpha: 0.08,
-          });
           gsap.set(section.querySelectorAll(`.${styles.chapterLabel}`), {
             autoAlpha: 1,
             y: 0,
@@ -89,7 +86,6 @@ export function About() {
           const label = chapter.querySelector<HTMLElement>(
             `.${styles.chapterLabel}`,
           );
-          const index = chapter.querySelector<HTMLElement>(`.${styles.index}`);
           if (!text) return;
 
           const split = SplitText.create(text, {
@@ -103,7 +99,6 @@ export function About() {
               gsap.set(imgs, { yPercent: 12 });
               if (label) gsap.set(label, { autoAlpha: 0, y: 20 });
               if (body) gsap.set(body, { autoAlpha: 0, y: 24 });
-              if (index) gsap.set(index, { autoAlpha: 0 });
 
               const tl = gsap.timeline({
                 defaults: { ease: "power1.out" },
@@ -115,18 +110,6 @@ export function About() {
                   invalidateOnRefresh: true,
                 },
               });
-
-              if (index) {
-                tl.to(
-                  index,
-                  {
-                    autoAlpha: 0.09,
-                    duration: 0.5,
-                    immediateRender: false,
-                  },
-                  0,
-                );
-              }
 
               if (label) {
                 tl.to(
@@ -235,10 +218,6 @@ export function About() {
           className={cn(styles.chapter, layoutClass[chapter.layout])}
           aria-labelledby={`about-${chapter.id}`}
         >
-          <span className={styles.index} aria-hidden="true">
-            {String(chapterIndex + 1).padStart(2, "0")}
-          </span>
-
           <div className={styles.chapterInner}>
             <div className={styles.chapterCopy}>
               <p className={styles.chapterLabel}>{chapter.label}</p>

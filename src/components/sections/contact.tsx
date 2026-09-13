@@ -25,8 +25,7 @@ export function Contact() {
                 Let&apos;s build something.
               </h2>
               <p className="text-muted-foreground text-sm leading-snug sm:text-base sm:leading-relaxed">
-                Graduation internship from February 2027. Drag the card, or
-                reach out.
+                Graduation internship from February 2027. Reach out anytime.
               </p>
             </div>
 

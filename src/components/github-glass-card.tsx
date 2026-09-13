@@ -77,10 +77,26 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     };
   }, [username]);
 
+  const isDesktopLayout = useCallback(
+    () => window.matchMedia("(min-width: 901px)").matches,
+    [],
+  );
+
   const placeClusterRight = useCallback(() => {
     const cluster = clusterRef.current;
     const stage = stageRef.current;
     if (!cluster || !stage || hasDraggedRef.current) return;
+
+    // Mobile: CSS stacks the card in normal flow under the copy.
+    if (!isDesktopLayout()) {
+      cluster.style.position = "";
+      cluster.style.left = "";
+      cluster.style.top = "";
+      cluster.style.right = "";
+      cluster.style.margin = "";
+      cluster.style.translate = "";
+      return;
+    }
 
     cluster.style.position = "absolute";
     cluster.style.margin = "0";
@@ -92,11 +108,9 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
       STAGE_PAD,
       stage.clientWidth - cluster.offsetWidth - STAGE_PAD,
     );
-    // Sit beside the copy on wide layouts; fall back to the stage edge on narrow.
-    const besideAside =
-      aside && stage.clientWidth > 900
-        ? aside.offsetLeft + aside.offsetWidth + ASIDE_GAP
-        : maxLeft;
+    const besideAside = aside
+      ? aside.offsetLeft + aside.offsetWidth + ASIDE_GAP
+      : maxLeft;
     const left = Math.min(Math.max(STAGE_PAD, besideAside), maxLeft);
     const top = Math.max(
       STAGE_PAD,
@@ -104,7 +118,7 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     );
     cluster.style.left = `${left}px`;
     cluster.style.top = `${top}px`;
-  }, []);
+  }, [isDesktopLayout]);
 
   useEffect(() => {
     placeClusterRight();
@@ -124,6 +138,7 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     if (!cluster || !stage) return;
 
     const onPointerDown = (e: PointerEvent) => {
+      if (!isDesktopLayout()) return;
       const target = e.target as HTMLElement;
       if (target.closest("button") || target.closest("a")) return;
 
@@ -148,7 +163,7 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
     };
 
     const onPointerMove = (e: PointerEvent) => {
-      if (!dragRef.current.active) return;
+      if (!isDesktopLayout() || !dragRef.current.active) return;
       e.preventDefault();
       const stageRect = stage.getBoundingClientRect();
       const clusterRect = cluster.getBoundingClientRect();
@@ -187,7 +202,7 @@ export function GithubGlassCard({ className, children }: GithubGlassCardProps) {
       cluster.removeEventListener("pointerup", onPointerUp);
       cluster.removeEventListener("pointercancel", onPointerUp);
     };
-  }, []);
+  }, [isDesktopLayout]);
 
   const displayName = stats?.name || site.name;
   const login = stats?.login || username;
