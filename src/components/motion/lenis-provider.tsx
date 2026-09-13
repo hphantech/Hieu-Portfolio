@@ -74,6 +74,8 @@ export function LenisProvider({ children }: { children: ReactNode }) {
 
     const instance = new Lenis({
       autoRaf: false,
+      touchMultiplier: 1.15,
+      syncTouch: false,
     });
 
     instance.on("scroll", ScrollTrigger.update);

@@ -29,7 +29,9 @@ export function FlyTextBeat({
       aria-label={label}
       className={cn(
         "bg-background text-foreground flex w-full flex-col justify-center px-6 sm:px-10",
-        density === "solo" ? "min-h-dvh py-0" : "min-h-[58vh] py-[8vh]",
+        density === "solo"
+          ? "min-h-[70svh] py-0 sm:min-h-dvh"
+          : "min-h-[48vh] py-[6vh] sm:min-h-[58vh] sm:py-[8vh]",
         className,
       )}
     >

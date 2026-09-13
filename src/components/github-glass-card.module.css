@@ -45,17 +45,40 @@
   .aside {
     width: 100%;
     max-width: none;
-    padding-block-end: 22rem;
+    padding-block-end: 0;
   }
 
   .stage {
     max-width: none;
-    min-height: min(85vh, 48rem);
-    align-items: flex-start;
+    min-height: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.75rem;
+    overflow: visible;
+  }
+
+  .cluster {
+    position: relative;
+    right: auto;
+    top: auto;
+    left: auto;
+    translate: none;
+    align-self: center;
+    cursor: default;
+    touch-action: pan-y;
+    transform-origin: center center;
   }
 
   .pointer {
-    width: 6.5rem;
+    display: none;
+  }
+
+  .card {
+    width: min(273px, calc(100vw - 3rem));
+  }
+
+  .zoomControls {
+    display: none;
   }
 }
 

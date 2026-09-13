@@ -34,7 +34,6 @@ export function MuteButton({ src, className }: MuteButtonProps) {
   const barsRef = useRef<(SVGRectElement | null)[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
   const mutedRef = useRef(true);
-  const autoplayPendingRef = useRef(Boolean(src));
   const waveTweensRef = useRef<gsap.core.Tween[]>([]);
   const [isMuted, setIsMuted] = useState(true);
 
@@ -44,50 +43,9 @@ export function MuteButton({ src, className }: MuteButtonProps) {
     if (!audio) return;
 
     audio.volume = 0.45;
-    autoplayPendingRef.current = true;
-
-    const unlockEvents = ["pointerdown", "keydown", "touchstart"] as const;
-
-    const start = async () => {
-      try {
-        await audio.play();
-        mutedRef.current = false;
-        autoplayPendingRef.current = false;
-        setIsMuted(false);
-        for (const event of unlockEvents) {
-          window.removeEventListener(event, onGesture);
-        }
-        return true;
-      } catch {
-        return false;
-      }
-    };
-
-    const onGesture = () => {
-      if (!autoplayPendingRef.current || !mutedRef.current) return;
-      void start();
-    };
-
-    void start().then((ok) => {
-      if (ok) return;
-      for (const event of unlockEvents) {
-        window.addEventListener(event, onGesture, { passive: true });
-      }
-    });
-
-    const onHeroReady = () => {
-      if (autoplayPendingRef.current && mutedRef.current) {
-        void start();
-      }
-    };
-    window.addEventListener("portfolio:hero-ready", onHeroReady);
-
-    return () => {
-      for (const event of unlockEvents) {
-        window.removeEventListener(event, onGesture);
-      }
-      window.removeEventListener("portfolio:hero-ready", onHeroReady);
-    };
+    audio.muted = true;
+    mutedRef.current = true;
+    setIsMuted(true);
   }, [src]);
 
   useEffect(() => {
@@ -196,15 +154,18 @@ export function MuteButton({ src, className }: MuteButtonProps) {
   const onClick = async () => {
     const nextMuted = !mutedRef.current;
     mutedRef.current = nextMuted;
-    autoplayPendingRef.current = false;
     setIsMuted(nextMuted);
 
     const audio = audioRef.current;
     if (nextMuted) {
-      audio?.pause();
+      if (audio) {
+        audio.pause();
+        audio.muted = true;
+      }
       return;
     }
     if (src && audio) {
+      audio.muted = false;
       audio.volume = 0.45;
       try {
         await audio.play();
@@ -225,7 +186,7 @@ export function MuteButton({ src, className }: MuteButtonProps) {
           src={src}
           loop
           preload="auto"
-          autoPlay
+          muted
           playsInline
         />
       ) : null}

@@ -230,6 +230,13 @@ function buildTimeline(
     return tl;
   }
 
+  const mobile = window.matchMedia("(max-width: 640px)").matches;
+  const strengthScale = mobile ? 0.35 : 1;
+  const windStrength = p.windStrength * strengthScale;
+  const scatter = p.scatter * strengthScale;
+  const depth = p.depth * strengthScale;
+  const maxRotation = p.maxRotation * (mobile ? 0.45 : 1);
+
   const rad = (p.windAngle * Math.PI) / 180;
   const windX = Math.cos(rad);
   const windY = -Math.sin(rad);
@@ -250,17 +257,17 @@ function buildTimeline(
     );
     const duration = range(1 - p.randomness * 0.5, 1 + p.randomness * 0.5);
     const scatterAngle = range(0, Math.PI * 2);
-    const scatterDist = range(0, p.scatter);
+    const scatterDist = range(0, scatter);
     const syncPhase = Math.PI * p.gustFrequency * startTime;
     const indexPhase = (i / Math.max(1, chars.length - 1)) * Math.PI * 2;
     const phase = lerp(syncPhase, indexPhase, p.gustPhaseSpread);
 
-    const fx = windX * p.windStrength + Math.cos(scatterAngle) * scatterDist;
-    const fy = windY * p.windStrength + Math.sin(scatterAngle) * scatterDist;
-    const fz = range(-p.depth, p.depth);
-    const rx = range(-p.maxRotation, p.maxRotation);
-    const ry = range(-p.maxRotation * 0.7, p.maxRotation * 0.7);
-    const rz = range(-p.maxRotation * 0.3, p.maxRotation * 0.3);
+    const fx = windX * windStrength + Math.cos(scatterAngle) * scatterDist;
+    const fy = windY * windStrength + Math.sin(scatterAngle) * scatterDist;
+    const fz = range(-depth, depth);
+    const rx = range(-maxRotation, maxRotation);
+    const ry = range(-maxRotation * 0.7, maxRotation * 0.7);
+    const rz = range(-maxRotation * 0.3, maxRotation * 0.3);
 
     const scattered = {
       x: fx,
