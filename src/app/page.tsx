@@ -5,8 +5,6 @@ import { Hero } from "@/components/sections/hero";
 import { Intro } from "@/components/sections/intro";
 import { Skills } from "@/components/sections/skills";
 import { WorkCarousel } from "@/components/sections/work-carousel";
-import { FlyTextBeat } from "@/components/motion/fly-text-beat";
-import { flyPresets } from "@/components/motion/fly-text";
 import { ScatterAssemble } from "@/components/scatter-assemble";
 import { SplitWordHeadline } from "@/components/split-word-headline";
 import { StoryLines } from "@/components/story-lines";
@@ -20,11 +18,10 @@ export default function Home() {
       <ScatterAssemble text={story.beforeExperience[0]} />
       <Experience />
       <Skills />
-      <FlyTextBeat
+      <StoryLines
         label="More work"
         density="solo"
-        text={story.beforeMoreWork[0]}
-        preset={flyPresets.breeze}
+        lines={story.beforeMoreWork}
       />
       <WorkCarousel />
       <SplitWordHeadline>
