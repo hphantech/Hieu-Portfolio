@@ -37,7 +37,6 @@ export const experiences: ExperienceItem[] = [
       "My own studio and brand. I started Yulin Studios to build websites and webshops for businesses and strengthen their online presence. Still active with partners like Chayue Tea and more clients underway.",
     highlights: [
       "Lead software engineering across client sites and shops",
-      "Small core team: InfoSec (brother-in-law), BIM (partner), plus freelance engineering when projects scale",
       "Ongoing client work that grows each business’s online footprint",
     ],
     tags: ["Websites", "Webshops", "Clients", "Team"],
