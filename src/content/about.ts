@@ -19,7 +19,7 @@ export const about = {
       headline: "I have a dog named Mochi.",
       body: [
         "Honestly one of the best parts of my day :))) After too many hours on a laptop, hanging out with her just hits different.",
-        "Walks, couch stealing, way too many photos… that chaos + calm combo is exactly what I need. Not a “break from work”, just time that matters <3",
+        "Walks, couch stealing, way too many photos… that chaos + calm combo is exactly what I need. Not a “break from work”, just time that matters.",
         "If you know me IRL you already know. Mochi is family, full stop.",
       ],
       images: [
@@ -66,7 +66,7 @@ export const about = {
       body: [
         "I don’t always follow recipes. Open the fridge, see what’s there, make it taste good. Half the fun is improvising :)",
         "Sometimes it’s a full plate of chicken rice. Sometimes it’s “wait does this even work”. Either way I love plating it up and sharing it.",
-        "Same vibe as building stuff. Try it, taste it, tweak it, done <3",
+        "Same vibe as building stuff. Try it, taste it, tweak it, done.",
       ],
       images: [
         {
